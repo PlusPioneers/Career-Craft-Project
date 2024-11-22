@@ -6,7 +6,6 @@
     <title>Career Craft - Crafting Skills, Shaping Futures</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* All previous styles remain the same */
         :root {
             --primary-orange: #FF6B00;
             --primary-green: #4CAF50;
@@ -19,6 +18,19 @@
         .hero-section {
             background: linear-gradient(135deg, #fff 60%, var(--primary-orange) 60%);
             padding: 4rem 0;
+        }
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: var(--primary-orange) !important;
         }
         
         .brand-orange {
@@ -93,27 +105,22 @@
 <body>
     <!-- JavaScript for path configuration -->
     <script>
-        // Define your paths here
         const PATHS = {
             home: '/home',
             dashboard: '/dashboard',
             courseLibrary: '/courses',
             skillsBadges: '/skills-badges',
             profile: '/profile',
-            // Course specific paths
             courseJava: '/courses/java',
             coursePython: '/courses/python',
             courseWeb: '/courses/web',
             courseMobile: '/courses/mobile',
-            // Notification paths
             notifications: '/notifications',
-            // Footer paths
             about: '/about',
             contact: '/contact',
             support: '/support'
         };
 
-        // Function to navigate to a specific path
         function navigateTo(path) {
             window.location.href = path;
         }
