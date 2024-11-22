@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Crafting Skills, Shaping Futures</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* All previous styles remain the same */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #fff 60%, var(--primary-orange) 60%);
+            padding: 4rem 0;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .dashboard-btn {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-btn:hover {
+            background-color: #3d8c40;
+            transform: translateY(-2px);
+        }
+        
+        .course-card {
+            background-color: #002B3D;
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .course-image {
+            background-color: white;
+            border-radius: 10px;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+        
+        .learn-btn {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .learn-btn:hover {
+            background-color: #3d8c40;
+        }
+        
+        .announcement-section {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- JavaScript for path configuration -->
+    <script>
+        // Define your paths here
+        const PATHS = {
+            home: '/home',
+            dashboard: '/dashboard',
+            courseLibrary: '/courses',
+            skillsBadges: '/skills-badges',
+            profile: '/profile',
+            // Course specific paths
+            courseJava: '/courses/java',
+            coursePython: '/courses/python',
+            courseWeb: '/courses/web',
+            courseMobile: '/courses/mobile',
+            // Notification paths
+            notifications: '/notifications',
+            // Footer paths
+            about: '/about',
+            contact: '/contact',
+            support: '/support'
+        };
+
+        // Function to navigate to a specific path
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#" onclick="navigateTo(PATHS.home)">
+                <img src="/api/placeholder/40/40" alt="Government Logo" class="me-2">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="navigateTo(PATHS.home)">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="navigateTo(PATHS.dashboard)">Student Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="navigateTo(PATHS.courseLibrary)">Course Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="navigateTo(PATHS.skillsBadges)">Skills & Badges</a>
+                    </li>
+                </ul>
+                <div class="ms-3">
+                    <img src="/api/placeholder/40/40" alt="Profile" class="rounded-circle" 
+                         onclick="navigateTo(PATHS.profile)" style="cursor: pointer;">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-4">
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h1>
+                    <h2 class="mb-4">Crafting Skills, Shaping Futures</h2>
+                    <p class="lead mb-4">
+                        CareerCraft is an innovative platform designed to help students explore vocational skills, 
+                        discover career opportunities, and gain industry-relevant experience, empowering them to 
+                        craft successful futures with hands-on training and personalized learning paths.
+                    </p>
+                    <button class="dashboard-btn" onclick="navigateTo(PATHS.dashboard)">Go to Dashboard</button>
+                </div>
+                <div class="col-lg-6">
+                    <img src="/api/placeholder/400/320" alt="Student studying" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Section -->
+    <section class="container my-5">
+        <div class="text-center mb-5">
+            <h2 class="mb-3">Invest in your career with Career Craft</h2>
+            <p class="lead">
+                Unlock the potential within your within you by investing your time in valuable 
+                courses to build your career
+            </p>
+        </div>
+
+        <!-- Course Cards -->
+        <div class="row g-4">
+            <!-- Course Card 1 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <h5>Java for beginners</h5>
+                    <p class="text-muted">text[foaj[foj</p>
+                    <button class="learn-btn" onclick="navigateTo(PATHS.courseJava)">Learn Now</button>
+                </div>
+            </div>
+            <!-- Course Card 2 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <h5>Java for beginners</h5>
+                    <p class="text-muted">text[foaj[foj</p>
+                    <button class="learn-btn" onclick="navigateTo(PATHS.coursePython)">Learn Now</button>
+                </div>
+            </div>
+            <!-- Course Card 3 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <h5>Java for beginners</h5>
+                    <p class="text-muted">text[foaj[foj</p>
+                    <button class="learn-btn" onclick="navigateTo(PATHS.courseWeb)">Learn Now</button>
+                </div>
+            </div>
+            <!-- Course Card 4 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="course-card">
+                    <div class="course-image"></div>
+                    <h5>Java for beginners</h5>
+                    <p class="text-muted">text[foaj[foj</p>
+                    <button class="learn-btn" onclick="navigateTo(PATHS.courseMobile)">Learn Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcement Section -->
+    <section class="container">
+        <div class="announcement-section" onclick="navigateTo(PATHS.notifications)" style="cursor: pointer;">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-bullhorn me-3"></i>
+                <div>
+                    <h4 class="mb-2">Announcement & Notification</h4>
+                    <p class="mb-0">Check out the new updates and new features added to the LMS portal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="/api/placeholder/40/40" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
