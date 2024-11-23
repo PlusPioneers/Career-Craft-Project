@@ -1,0 +1,305 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        /* Navigation Styles */
+        .navbar {
+            padding: 1rem 0;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #333333;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+         
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+
+        /* Profile Image */
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <img src="/api/placeholder/40/40" alt="Government Logo" class="me-2">
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="/api/placeholder/40/40" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Your page content goes here -->
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Course Library</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .course-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .course-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            background: #000;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .course-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .course-image {
+                width: 100%;
+                height: 200px;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" class="form-control" placeholder="Search here..." id="searchInput">
+        </div>
+
+        <!-- Course Cards -->
+        <div class="course-list animate__animated animate__fadeIn">
+            <!-- Course items will be dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="/api/placeholder/40/40" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Course data
+        const courses = [
+            {
+                title: "Java For Beginners",
+                description: "Learn the basics of Java to unlock your potential at coding.",
+                image: "/api/placeholder/120/120"
+            },
+            {
+                title: "C For Beginners",
+                description: "Learn the basics of C to unlock your potential at coding.",
+                image: "/api/placeholder/120/120"
+            },
+            {
+                title: "Python For Beginners",
+                description: "Learn the basics of Python to unlock your potential at coding.",
+                image: "/api/placeholder/120/120"
+            },
+            {
+                title: "AI For Beginners",
+                description: "Learn the basics of AI to unlock your potential at artificial intelligence.",
+                image: "/api/placeholder/120/120"
+            },
+            {
+                title: "Machine Learning Algorithms For Beginners",
+                description: "Learn the basics of Machine Learning to unlock your potential at artificial intelligence.",
+                image: "/api/placeholder/120/120"
+            },
+            {
+                title: "UI/UX Design For Beginners",
+                description: "Learn the basics of UI/UX Design to unlock your potential at Designing field.",
+                image: "/api/placeholder/120/120"
+            },
+            {
+                title: "Gen AI For Beginners",
+                description: "Learn the basics of Gen AI to unlock your potential at artificial intelligence.",
+                image: "/api/placeholder/120/120"
+            }
+        ];
+
+        // Function to create course cards
+        function createCourseCard(course) {
+            return `
+                <div class="card course-card animate__animated animate__fadeIn mb-3">
+                    <div class="card-body d-flex align-items-center">
+                        <img src="${course.image}" alt="${course.title}" class="course-image me-3">
+                        <div>
+                            <h3 class="course-title">${course.title}</h3>
+                            <p class="course-description mb-0">${course.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render courses
+        function renderCourses(coursesToRender) {
+            const courseList = document.querySelector('.course-list');
+            courseList.innerHTML = coursesToRender.map(createCourseCard).join('');
+            
+            // Add click event listeners to cards
+            document.querySelectorAll('.course-card').forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    // Here you can add the navigation logic to the course page
+                    window.location.href = `course-${index + 1}.html`;
+                });
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredCourses = courses.filter(course => 
+                course.title.toLowerCase().includes(searchTerm) || 
+                course.description.toLowerCase().includes(searchTerm)
+            );
+            renderCourses(filteredCourses);
+        });
+
+        // Initial render
+        renderCourses(courses);
+    </script>
+</body>
+</html>
