@@ -7,18 +7,84 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        /* Navigation Styles */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
         .nav-link.active {
-            background-color: #198754 !important;
-            color: white !important;
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* Profile Image */
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
         }
         .profile-img {
             width: 200px;
             height: 200px;
             transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
         }
-        .profile-img:hover {
-            transform: scale(1.05);
+
+        .hero-section {
+            background: linear-gradient(135deg, #fff 60%, var(--primary-orange) 60%);
+            padding: 4rem 0;
         }
+        
         .tab-pane {
             animation: fadeIn 0.5s ease-in;
         }
@@ -26,12 +92,7 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        .brand-orange {
-            color: #ff6b00;
-        }
-        .brand-green {
-            color: #28a745;
-        }
+        
         .detail-label {
             font-weight: 600;
             color: #666;
@@ -47,6 +108,11 @@
         .no-data {
             color: #6c757d;
             font-style: italic;
+        }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
         }
     </style>
 </head>
@@ -219,7 +285,7 @@
 
     <!-- Footer -->
     <footer class="footer mt-5">
-        <div class=" bg-dark">
+        <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">

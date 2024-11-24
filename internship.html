@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft</title>
+    <title>Career Craft - Internship Portal</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
         /* Brand Colors */
@@ -17,15 +19,41 @@
             color: #198754;
         }
         /* Navigation Styles */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
         .navbar {
-            padding: 1rem 0;
             background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .nav-link {
-            color: #333333;
+            color: #ffffff;
             font-weight: 500;
-            padding: 0.5rem 1rem;
+
             transition: color 0.3s ease;
         }
         .nav-link:hover {
@@ -40,81 +68,21 @@
         }
         /* Profile Image */
         .profile-img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
         .profile-img:hover {
-            transform: scale(1.1);
+            transform: scale(1.25);
         }
-    </style>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <!-- Brand -->
-            <a href="index.html" class="navbar-brand d-flex align-items-center">
-                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
-                <span class="brand-orange">CAREER</span>
-                <span class="brand-green ms-2">CRAFT</span>
-            </a>
-
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navigation Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-5">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link active pt-3">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
-                    </li>
-                </ul>
-                <!-- Profile Picture -->
-                <div class="ms-3">
-                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Your page content goes here -->
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft - Internship Portal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-orange: #FF6B00;
-            --primary-green: #4CAF50;
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
         }
-        
-        .navbar-brand img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        
         .internship-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
@@ -179,8 +147,50 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Your page content goes here -->
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
     <!-- Main Content -->
     <div class="container py-5">
@@ -199,7 +209,7 @@
         <!-- Internship Title -->
         <div class="text-center mb-5 animate_animated animate_fadeIn">
             <h2>INTERNSHIP PROGRAM OFFERS FOR STUDENTS</h2>
-            <h3 class="text-orange">CAREER CRAFT</h3>
+            <h3 class="brand-orange">CAREER <span class="brand-green">CRAFT</span></h3>
             <p>Crafting Skills, Shaping Futures</p>
             <h4>Latest Summer Internships in India</h4>
         </div>
@@ -237,7 +247,7 @@
             <!-- Card 3 -->
             <div class="col-md-4">
                 <div class="internship-card p-3 animate_animated animate_fadeInRight">
-                    <img src="/api/placeholder/400/200" alt="Pre-sales Internship" class="img-fluid internship-img mb-3">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Pre-sales Internship" class="img-fluid internship-img mb-3">
                     <h5>Pre-sales</h5>
                     <p>LeadNexus LLP</p>
                     <p>Actively hiring</p>
@@ -270,7 +280,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Career Craft Logo" class="mb-3">
+                    <img src="/api/placeholder/40/40" alt="Career Craft Logo" class="mb-3">
                     <h5>CAREER CRAFT</h5>
                     <p>Crafting Skills, Shaping Futures</p>
                 </div>

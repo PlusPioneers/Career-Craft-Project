@@ -11,19 +11,74 @@
             --primary-orange: #FF6B00;
             --primary-green: #4CAF50;
         }
-        
         .navbar-brand img {
             height: 40px;
         }
         
-        .badge-section {
-            background: #f5f5f5;
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
         }
 
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* Profile Image */
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
+        }
+        .tab-pane {
+            animation: fadeIn 0.5s ease-in;
+        }
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
         .badge-container {
             display: flex;
             justify-content: space-around;
@@ -91,10 +146,9 @@
         }
 
         .footer {
-            background-color: #1a1a1a;
+            background-color: #000;
             color: white;
             padding: 2rem 0;
-            margin-top: 3rem;
         }
 
         .shine-effect {
@@ -113,7 +167,7 @@
         <div class="container">
             <!-- Brand -->
             <a href="index.html" class="navbar-brand d-flex align-items-center">
-                <img src="/api/placeholder/40/40" alt="Government Logo" class="me-2">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
                 <span class="brand-orange">CAREER</span>
                 <span class="brand-green ms-2">CRAFT</span>
             </a>
@@ -136,12 +190,12 @@
                         <a href="course%20library.html" class="nav-link">Course<br>Library</a>
                     </li>
                     <li class="nav-item">
-                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                        <a href="skills.html" class="nav-link active">Skills &<br> Badges</a>
                     </li>
                 </ul>
                 <!-- Profile Picture -->
                 <div class="ms-3">
-                    <a href="Profile.html"><img src="/api/placeholder/40/40" alt="Profile" class="rounded-circle profile-img"></a>
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
                 </div>
             </div>
         </div>
@@ -214,11 +268,12 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="/api/placeholder/40/40" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
