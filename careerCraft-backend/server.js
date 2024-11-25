@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load environment variables
 const express = require('express');
 const bodyParser = require('body-parser');
 const aiRoutes = require('./routes/aiRoutes');
@@ -7,10 +8,5 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/api', aiRoutes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
-});
-// Start the server
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
-});
+const PORT = process.env.PORT || 5000; // Use the PORT variable or default to 5000
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
