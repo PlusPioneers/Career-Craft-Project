@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft - Platinum Badge</title>
+    <title>Career Craft - Gold Badge</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+            --silver:#C0C0C0;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+        }
         /* Brand Colors */
         .brand-orange {
             color: #fd7e14;
@@ -79,54 +89,58 @@
             height: 50px;
             width: 50px;
         }
-        
-        body {
-            background-color: #000;
-            color: #fff;
-        }
-        
-        .navbar-brand img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        
+
         .badge-container {
             text-align: center;
             padding: 3rem 0;
         }
         
-        .platinum-badge {
+        .silver-badge {
             width: 150px;
             height: 150px;
-            animation: float 3s ease-in-out infinite;
+            animation: shine 2s infinite;
         }
         
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        @keyframes shine {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+            100% { filter: brightness(1); }
         }
         
         .badge-number {
             font-size: 2rem;
             font-weight: bold;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #a0a0a0;
+            color: var(--silver);
         }
         
         .badge-label {
             margin-top: 1rem;
             font-size: 1.5rem;
-            color: #a0a0a0;
+            color: var(--silver);
         }
         
-        .message {
-            color: #a0a0a0;
-            font-size: 1.8rem;
+        .course-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
             margin: 2rem 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.1);
+        }
+        
+        .course-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
         }
         
         .criteria-card {
@@ -156,7 +170,7 @@
             content: "•";
             position: absolute;
             left: 0;
-            color: var(--primary-orange);
+            color: var(--silver);
         }
         
         footer {
@@ -166,17 +180,31 @@
             margin-top: 3rem;
         }
         
-        .progress-ring {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
+        .course-btn {
+            background-color: var(--silver);
+            color: #000;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
         }
         
-        .progress-ring circle {
-            transition: stroke-dashoffset 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
+        .course-btn:hover {
+            transform: scale(1.05);
+            background-color: #C0C0C0;
+        }
+
+        @media (max-width: 768px) {
+            .course-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .course-image {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
@@ -221,67 +249,76 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container py-5">
-        <!-- Badge Section -->
-        <div class="badge-container animate_animated animate_fadeIn">
-            <div class="progress-ring">
-                <svg width="200" height="200" viewBox="0 0 200 200">
-                    <circle
-                        cx="100"
-                        cy="100"
-                        r="80"
-                        fill="none"
-                        stroke="#e0e0e0"
-                        stroke-width="12"
-                    />
-                    <circle
-                        cx="100"
-                        cy="100"
-                        r="80"
-                        fill="none"
-                        stroke="#c0c0c0"
-                        stroke-width="12"
-                        stroke-dasharray="502.4"
-                        stroke-dashoffset="502.4"
-                    />
-                    <text x="100" y="115" text-anchor="middle" fill="#a0a0a0" font-size="48">0</text>
+        <!-- Main Content -->
+        <div class="container py-5">
+            <!-- Badge Section - Updated for Silver Badge -->
+            <div class="badge-container animate_animated animate_fadeIn">
+                <svg class="silver-badge" viewBox="0 0 200 200">
+                    <circle cx="100" cy="100" r="80" fill="#C0C0C0" />
+                    <text x="100" y="115" text-anchor="middle" fill="#000" font-size="48">3</text>
                 </svg>
+                <h2 class="badge-label animate_animated animate_fadeIn">Silver</h2>
             </div>
-            <h2 class="badge-label animate_animated animate_fadeIn">Platinum</h2>
+    
+            <!-- The rest of the content remains the same as the original file -->
+            <div class="course-card animate_animated animate_fadeInUp">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/Python%20for%20beginners%203.png?raw=true" alt="Python Programming" class="course-image">
+                <div class="course-content">
+                    <h3>Python For Beginners</h3>
+                    <p>Learn the basics of python to unlock your potential at coding.</p>
+                    <button class="course-btn" onclick="window.location.href='course-details.html'">
+                        View Course
+                    </button>
+                </div>
+            </div>
+    
+            <div class="course-card animate_animated animate_fadeInUp">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/AI%20for%20beginners%204.png?raw=true" alt="Python Programming" class="course-image">
+                <div class="course-content">
+                    <h3>AI For Beginners</h3>
+                    <p>Learn the basics of AI to unlock your potential at artificial intelligence.</p>
+                    <button class="course-btn" onclick="window.location.href='course-details.html'">
+                        View Course
+                    </button>
+                </div>
+            </div>
+    
+            <div class="course-card animate_animated animate_fadeInUp">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/Ui%20ux%206.png?raw=true" alt="Python Programming" class="course-image">
+                <div class="course-content">
+                    <h3>UI/UX Design For Beginners</h3>
+                    <p>Learn the basics of Ui/Ux Design to unlock your potential at Designing feild.</p>
+                    <button class="course-btn" onclick="window.location.href='course-details.html'">
+                        View Course
+                    </button>
+                </div>
+            </div>
+    
+            <!-- Criteria Card - Updated for Silver Badge -->
+            <div class="criteria-card animate_animated animate_fadeInUp">
+                <h3>Badge Criteria:</h3>
+                <h4 class="mt-4">2Silver Badge</h4>
+                
+                <div class="mt-4">
+                    <h5>Awarded For: <span class="text-light">Good understanding and consistent effort.</span></h5>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Requirements:</h5>
+                    <ul class="requirements-list">
+                        <li>Complete at least 80% of the course content.</li>
+                        <li>Score between 70%-84% in quizzes, assignments, and assessments.</li>
+                        <li>Actively participate in two or more discussions or peer interactions.</li>
+                        <li>Submit any mandatory projects or assignments.</li>
+                    </ul>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Objective:</h5>
+                    <p>Rewards students for consistent engagement and solid comprehension of the course material.</p>
+                </div>
+            </div>
         </div>
-
-        <!-- Messages -->
-        <div class="text-center animate_animated animatefadeIn animate_delay-1s">
-            <h2 class="message">Oops no platinum badges aquired as of yet!</h2>
-            <h3 class="message">Keep working hard to ger more badges!!</h3>
-        </div>
-
-        <!-- Criteria Card -->
-        <div class="criteria-card animate_animated animatefadeIn animate_delay-2s">
-            <h3>Badge Criteria:</h3>
-            <h4 class="mt-4">Platinum Badge</h4>
-            
-            <div class="mt-4">
-                <h5>Awarded For: <span class="text-light">Outstanding performance and mastery.</span></h5>
-            </div>
-            
-            <div class="mt-4">
-                <h5>Requirements:</h5>
-                <ul class="requirements-list">
-                    <li>Achieve a 100% course completion rate with all additional reading and activities.</li>
-                    <li>Score 95% or higher in quizzes, assignments, and final assessments.</li>
-                    <li>Demonstrate active leadership in discussions (e.g., starting meaningful threads, helping peers).</li>
-                    <li>Complete any extra credit projects or challenges provided in the course.</li>
-                    <li>Receive positive feedback from instructors (where applicable).</li>
-                </ul>
-            </div>
-            
-            <div class="mt-4">
-                <h5>Objective:</h5>
-                <p>Recognizes exceptional dedication, deep understanding, and leadership in the subject.</p>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="footer mt-5">
@@ -309,33 +346,5 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Animate the progress ring on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const circle = document.querySelector('.progress-ring circle:nth-child(2)');
-            const percent = 0; // Current progress (0%)
-            const radius = circle.r.baseVal.value;
-            const circumference = radius * 2 * Math.PI;
-            
-            circle.style.strokeDasharray = ${circumference} ${circumference};
-            circle.style.strokeDashoffset = circumference;
-            
-            function setProgress(percent) {
-                const offset = circumference - (percent / 100 * circumference);
-                circle.style.strokeDashoffset = offset;
-            }
-            
-            // Animate progress from 0 to current percent
-            let currentProgress = 0;
-            const interval = setInterval(() => {
-                if (currentProgress >= percent) {
-                    clearInterval(interval);
-                } else {
-                    currentProgress++;
-                    setProgress(currentProgress);
-                }
-            }, 20);
-        });
-    </script>
 </body>
 </html>

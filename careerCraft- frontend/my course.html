@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft - Mentorship</title>
+    <title>Career Craft - Crafting Skills, Shaping Futures</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <title>Career Craft</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
     <style>
         /* Brand Colors */
         .brand-orange {
@@ -79,70 +82,80 @@
             height: 50px;
             width: 50px;
         }
-        .search-container {
-            max-width: 600px;
-            margin: 2rem auto;
+        .hero-section {
+            background: linear-gradient(135deg, #fff 60%, var(--primary-orange) 60%);
+            padding: 4rem 0;
         }
         
-        .mentor-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: #FFF5F5;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-        
-        .mentor-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .mentor-img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin: 1rem auto;
-            display: block;
-        }
-        
-        .mentor-info {
-            padding: 1rem;
-        }
-        
-        .btn-mentor {
+        .dashboard-btn {
             background-color: var(--primary-green);
             color: white;
-            border: none;
-            padding: 0.5rem 2rem;
+            padding: 0.75rem 2rem;
             border-radius: 25px;
+            border: none;
             transition: all 0.3s ease;
         }
         
-        .btn-mentor:hover {
-            background-color: #388E3C;
-            transform: scale(1.05);
+        .dashboard-btn:hover {
+            background-color: #3d8c40;
+            transform: translateY(-2px);
         }
         
-        .search-input {
-            border-radius: 25px;
-            padding: 0.75rem 1.5rem;
+        .course-card {
+            background-color: #002B3D;
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .course-image {
+            background-color: white;
+            border-radius: 10px;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+        
+        .learn-btn {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .learn-btn:hover {
+            background-color: #3d8c40;
+        }
+        
+        .announcement-section {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
         
         .footer {
-            background-color: #1a1a1a;
+            background-color: #000;
             color: white;
             padding: 2rem 0;
-            margin-top: 3rem;
         }
-        
-        .animate-card {
-            animation: fadeInUp 0.5s ease-out;
+        .course-size{
+            height: 100px;
+            width: 130px;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <!-- Brand -->
             <a href="index.html" class="navbar-brand d-flex align-items-center">
@@ -180,73 +193,95 @@
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <h1 class="text-center mb-4 animate_animated animate_fadeIn">Mentorship</h1>
-        
-        <div class="search-container">
-            <div class="input-group">
-                <input type="text" class="form-control search-input" placeholder="Search here...">
-                <button class="btn btn-mentor" type="button">Search</button>
-            </div>
-        </div>
+    <!-- Your page content goes here -->
 
-        <div class="text-center mb-5">
-            <h2 class="animate_animated animate_fadeIn">MENTORSHIP PROGRAM OFFERS FOR STUDENTS</h2>
-            <h3 class="brand-orange">CAREER <span class="brand-green">CRAFT</span></h3>
-            <p>Crafting Skills, Shaping Futures</p>
-            <button class="btn btn-mentor animate_animated animatepulse animate_infinite">Apply to be a Mentor</button>
-        </div>
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-        <div class="row">
-            <div class="col-md-4">
-                <div class="mentor-card animate-card">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Mentorship%20Card/Ajax%201.png?raw=true" alt="Mentor" class="mentor-img">
-                    <div class="mentor-info">
-                        <p><strong>NAME:</strong> Ajax</p>
-                        <p><strong>FIELD:</strong> Data Scientist</p>
-                        <p><strong>EXPERIENCE:</strong> 10 Years</p>
-                        <p><strong>FEES:</strong> 5000 Rs</p>
-                        <button class="btn btn-mentor w-100" onclick="window.location.href='mentor-details.html'">View Profile</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="mentor-card animate-card">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Mentorship%20Card/lena%202.png?raw=true" alt="Mentor" class="mentor-img">
-                    <div class="mentor-info">
-                        <p><strong>NAME:</strong> Lena</p>
-                        <p><strong>FIELD:</strong> Data Analyst</p>
-                        <p><strong>EXPERIENCE:</strong> 12 Years</p>
-                        <p><strong>FEES:</strong> 5000 Rs</p>
-                        <button class="btn btn-mentor w-100" onclick="window.location.href='mentor-details.html'">View Profile</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="mentor-card animate-card">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Mentorship%20Card/lisa%203.png?raw=true" alt="Mentor" class="mentor-img">
-                    <div class="mentor-info">
-                        <p><strong>NAME:</strong> Lisa</p>
-                        <p><strong>FIELD:</strong> AWS Specialist</p>
-                        <p><strong>EXPERIENCE:</strong> 6 Years</p>
-                        <p><strong>FEES:</strong> 5000 Rs</p>
-                        <button class="btn btn-mentor w-100" onclick="window.location.href='mentor-details.html'">View Profile</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- JavaScript for path configuration -->
+    <script>
+        const PATHS = {
+            home: '/home',
+            dashboard: '/dashboard',
+            courseLibrary: '/courses',
+            skillsBadges: '/skills-badges',
+            profile: '/profile',
+            courseJava: '/courses/java',
+            coursePython: '/courses/python',
+            courseWeb: '/courses/web',
+            courseMobile: '/courses/mobile',
+            notifications: '/notifications',
+            about: '/about',
+            contact: '/contact',
+            support: '/support'
+        };
 
-        <div class="text-center mt-4 mb-5">
-            <button class="btn btn-mentor" onclick="window.location.href='all-mentors.html'">View more</button>
-        </div>
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
 
-        <div class="alert alert-light">
-            <p class="mb-0">Guidelines for the Mentorship Program- <a href="guidelines.html" class="text-danger">READ HERE</a></p>
-        </div>
+<div class="container my-5">
+    <h1 class="mb-4 animate_animated animate_fadeInDown">My Courses</h1>
+    <div class="row">
+      <div class="col-md-6 col-lg-12 mb-4 animate_animated animate_fadeInUp">
+        <a href="#" class="text-decoration-none">
+          <div class="card course-card h-100">
+           <div class="d-flex flex-row">
+            <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/java%20for%20beginners%201.png?raw=true" class="course-size" alt="Java For Beginners">
+            <div class="card-body">
+              <h5 class="card-title">Java For Beginners</h5>
+              <p class="card-text">Learn the basics of java to unlock your potential at coding.</p>
+            </div>
+           </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-12 mb-4 animate_animated animate_fadeInUp">
+        <a href="#" class="text-decoration-none">
+          <div class="card course-card h-100">
+           <div class="d-flex flex-row">
+            <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/c%20program%202.png?raw=true" class="course-size" alt="C For Beginners">
+            <div class="card-body">
+              <h5 class="card-title">C For Beginners</h5>
+              <p class="card-text">Learn the basics of C to unlock your potential at coding.</p>
+            </div>
+           </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-12 mb-4 animate_animated animate_fadeInUp">
+        <a href="#" class="text-decoration-none">
+          <div class="card course-card h-100">
+           <div class="d-flex flex-row">
+            <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/Python%20for%20beginners%203.png?raw=true" class="course-size" alt="Python For Beginners">
+            <div class="card-body">
+              <h5 class="card-title">Python For Beginners</h5>
+              <p class="card-text">Learn the basics of python to unlock your potential at coding.</p>
+            </div>
+           </div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-12 mb-4 animate_animated animate_fadeInUp">
+        <a href="#" class="text-decoration-none">
+          <div class="card course-card h-100">
+           <div class="d-flex flex-row">
+            <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/AI%20for%20beginners%204.png?raw=true" class="course-size" alt="AI For Beginners">
+            <div class="card-body">
+              <h5 class="card-title">AI For Beginners</h5>
+              <p class="card-text">Learn the basics of AI to unlock your potential at artificial intelligence.</p>
+            </div>
+           </div>
+          </div>
+        </a>
+      </div>
     </div>
-
+  </div>
+    
+   
+    <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
@@ -272,21 +307,5 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Animate cards on scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.mentor-card');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate_animated', 'animate_fadeInUp');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            cards.forEach(card => observer.observe(card));
-        });
-    </script>
 </body>
 </html>
