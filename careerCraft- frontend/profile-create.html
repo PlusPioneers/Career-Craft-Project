@@ -283,7 +283,7 @@
                 await set(ref(database, 'students/' + userId), studentProfile);
 
                 // Navigate to profile page
-                window.location.href = `profile.html?userId=${userId}`;
+                window.location.href = `Profile.html?userId=${userId}`;
             } catch (error) {
                 console.error('Error saving profile:', error);
                 alert('Failed to save profile. Please try again.');
