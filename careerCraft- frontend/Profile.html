@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/auth.js"></script>
+    <script src="js/courseRecommendation.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Student Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+ /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        /* Navigation Styles */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* Profile Image */
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #fff 60%, var(--primary-orange) 60%);
+            padding: 4rem 0;
+        }
+        
+        .tab-pane {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+        }
+        .detail-value {
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .no-data {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+        @media (max-width: 1500px) {
+        .profile-size {
+            height: 400px;
+            width: 400px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navigation (Unchanged from original) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Profile Section -->
+            <div class="col-md-4 text-center mb-4">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/profile%20image%201.png?raw=true" alt="Profile" class="profile-img profile-size rounded-circle mb-3">
+            </div>
+
+            <div class="col-md-8">
+                <div class="tab-content p-3 border rounded">
+                    <div class="tab-pane fade show active" id="student">
+                        <div class="mb-4">
+                            <div class="detail-label mb-2">Name</div>
+                            <div class="detail-value" id="studentName">
+                                <span class="no-data">No data</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="detail-label mb-2">LMS ID</div>
+                            <div class="detail-value" id="studentId">
+                                <span class="no-data">No data</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="detail-label mb-2">Grade</div>
+                            <div class="detail-value" id="studentGrade">
+                                <span class="no-data">No data</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="detail-label mb-2">Group of Study</div>
+                            <div class="detail-value" id="studentGroup">
+                                <span class="no-data">No data</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="detail-label mb-2">Interests</div>
+                            <div class="detail-value" id="studentInterests">
+                                <span class="no-data">No data</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (Unchanged from original) -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p class="text-white">Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="text-white">© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase and Authentication Scripts -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+    
+        // Authentication State Listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const userId = user.uid;
+                loadStudentProfile(userId);
+            } else {
+                // No user is signed in, redirect to login page
+                window.location.href = 'login.html';
+            }
+        });
+    
+        // Function to load student profile
+        async function loadStudentProfile(userId) {
+            try {
+                // Reference to the student's data in Firebase
+                const studentRef = ref(database, 'students/' + userId);
+                const snapshot = await get(studentRef);
+    
+                if (snapshot.exists()) {
+                    const studentData = snapshot.val();
+    
+                    // Update profile details
+                    document.getElementById('studentName').innerHTML = studentData.name || '<span class="no-data">No data</span>';
+                    document.getElementById('studentId').innerHTML = userId || '<span class="no-data">No data</span>';
+                    document.getElementById('studentGrade').innerHTML = `${studentData.grade}th Grade` || '<span class="no-data">No data</span>';
+                    
+                    // Handle group of study
+                    const groupElement = document.getElementById('studentGroup');
+                    groupElement.innerHTML = studentData.group || 'None';
+    
+                    // Handle interests
+                    const interestsElement = document.getElementById('studentInterests');
+                    if (studentData.interests && studentData.interests.length > 0) {
+                        interestsElement.innerHTML = studentData.interests.join(', ');
+                    } else {
+                        interestsElement.innerHTML = '<span class="no-data">No interests added</span>';
+                    }
+                } else {
+                    console.error('No student data found');
+                    alert('Student profile not found');
+                }
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+                alert('Failed to load student profile');
+            }
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
