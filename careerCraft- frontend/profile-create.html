@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Profile Creation</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body { 
+            background-color: #f4f6f9; 
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container { 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        .brand-orange { color: #FF6B35; }
+        .brand-green { color: #4ECB71; }
+        .group-option {
+            border: 2px solid #f4f6f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .group-option:hover {
+            border-color: #4ECB71;
+            background-color: #f0f0f0;
+        }
+        .group-option.selected {
+            border-color: #FF6B35;
+            background-color: #f0f0f0;
+        }
+        #interest-suggestions .btn {
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container" id="name-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Name</h3>
+            
+            <form id="name-form">
+                <div class="mb-3">
+                    <label for="student-name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="student-name" placeholder="Enter your full name" required>
+                </div>
+                <div id="name-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="grade-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Grade</h3>
+            
+            <form id="grade-form">
+                <div class="mb-3">
+                    <label for="student-grade" class="form-label">Select Your Grade</label>
+                    <select class="form-control" id="student-grade" required>
+                        <option value="">Select Grade</option>
+                        <option value="9">9th Grade</option>
+                        <option value="10">10th Grade</option>
+                        <option value="11">11th Grade</option>
+                        <option value="12">12th Grade</option>
+                    </select>
+                </div>
+                <div id="grade-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="group-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Stream</h3>
+            
+            <form id="group-form">
+                <div class="mb-3">
+                    <p class="text-center">Select your academic stream</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="group-option text-center" data-group="Computer Science">
+                                <h5>Computer Science</h5>
+                                <p>Programming, Algorithms, Tech</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="group-option text-center" data-group="Biology">
+                                <h5>Biology</h5>
+                                <p>Life Sciences, Medical Track</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="group-option text-center" data-group="Commerce">
+                                <h5>Commerce</h5>
+                                <p>Business, Economics, Finance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="group-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="interests-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Interests</h3>
+            
+            <form id="interests-form">
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Add Your Interests</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="interest-input" 
+                        placeholder="Type an interest"
+                    >
+                    <div id="suggestions" class="mt-2"></div>
+                </div>
+                
+                <div id="selected-interests" class="mb-3">
+                    <h5>Selected Interests:</h5>
+                    <ul id="interest-list" class="list-group"></ul>
+                </div>
+                
+                <div id="interests-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Complete Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Firebase configuration (same as in signup page)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // Technical Interest Suggestions
+        const allInterests = [
+            'Coding', 'Music', 'Sports', 'Art', 'Photography', 
+            'Reading', 'Writing', 'Gaming', 'Dancing', 'Design', 
+            'Science', 'Technology', 'Robotics', 'Film Making', 
+            'Entrepreneurship', 'Marketing', 'Finance', 'Environment', 
+            'Social Work', 'Theater', 'Debate', 'Public Speaking'
+        ];
+
+        // Profile Data and Selected Interests
+        const profileData = {
+            interests: []
+        };
+
+        // DOM Elements
+        const interestInput = document.getElementById('interest-input');
+        const suggestionsDiv = document.getElementById('suggestions');
+        const interestList = document.getElementById('interest-list');
+        const interestsForm = document.getElementById('interests-form');
+
+        // Interest Input and Suggestion Logic
+        interestInput.addEventListener('input', function() {
+            const input = this.value.toLowerCase();
+            suggestionsDiv.innerHTML = '';
+            
+            if (input.length > 0) {
+                const filteredInterests = allInterests.filter(interest => 
+                    interest.toLowerCase().includes(input) && 
+                    !profileData.interests.includes(interest)
+                );
+
+                filteredInterests.slice(0, 5).forEach(interest => {
+                    const suggestionEl = document.createElement('button');
+                    suggestionEl.textContent = interest;
+                    suggestionEl.classList.add('btn', 'btn-outline-secondary', 'btn-sm');
+                    suggestionEl.addEventListener('click', () => addInterest(interest));
+                    suggestionsDiv.appendChild(suggestionEl);
+                });
+            }
+        });
+
+        // Add Interest on Enter or Button Click
+        interestInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const interest = this.value.trim();
+                if (interest && !profileData.interests.includes(interest)) {
+                    addInterest(interest);
+                    this.value = '';
+                }
+            }
+        });
+
+        // Add interest to list
+        function addInterest(interest) {
+            if (!profileData.interests.includes(interest)) {
+                profileData.interests.push(interest);
+                
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+                listItem.innerHTML = `
+                    ${interest}
+                    <button type="button" class="btn btn-sm btn-danger remove-interest">×</button>
+                `;
+                
+                // Remove interest functionality
+                listItem.querySelector('.remove-interest').addEventListener('click', () => {
+                    const index = profileData.interests.indexOf(interest);
+                    if (index > -1) {
+                        profileData.interests.splice(index, 1);
+                    }
+                    listItem.remove();
+                });
+
+                interestList.appendChild(listItem);
+            }
+        }
+
+        // Prevent form submission with fewer than 3 interests
+        interestsForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = localStorage.getItem('studentName');
+            const grade = localStorage.getItem('studentGrade');
+            const group = localStorage.getItem('studentGroup');
+            const userId = localStorage.getItem('userId');
+
+            if (profileData.interests.length < 3) {
+                const interestsError = document.getElementById('interests-error');
+                interestsError.textContent = 'Please select at least 3 interests';
+                interestsError.classList.remove('d-none');
+                return;
+            }
+
+            try {
+                // Construct student profile
+                const studentProfile = {
+                    name: name,
+                    grade: grade,
+                    group: grade >= 11 ? group : null,
+                    interests: profileData.interests,
+                    sId: userId
+                };
+
+                // Store in Firebase Realtime Database
+                await set(ref(database, 'students/' + userId), studentProfile);
+
+                // Navigate to profile page
+                window.location.href = `profile.html?userId=${userId}`;
+            } catch (error) {
+                console.error('Error saving profile:', error);
+                alert('Failed to save profile. Please try again.');
+            }
+        });
+
+        // Event listeners for previous pages (Name, Grade, Group)
+        document.getElementById('name-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value;
+            localStorage.setItem('studentName', name);
+            
+            document.getElementById('name-page').classList.add('d-none');
+            document.getElementById('grade-page').classList.remove('d-none');
+        });
+
+        document.getElementById('grade-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const grade = document.getElementById('student-grade').value;
+            localStorage.setItem('studentGrade', grade);
+            
+            document.getElementById('grade-page').classList.add('d-none');
+            
+            // Show group page only for 11th and 12th grades
+            if (grade === '11' || grade === '12') {
+                document.getElementById('group-page').classList.remove('d-none');
+            } else {
+                document.getElementById('interests-page').classList.remove('d-none');
+            }
+        });
+
+        document.getElementById('group-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedGroup = document.querySelector('.group-option.selected');
+            
+            if (!selectedGroup) {
+                alert('Please select a group');
+                return;
+            }
+            
+            const group = selectedGroup.dataset.group;
+            localStorage.setItem('studentGroup', group);
+            
+            document.getElementById('group-page').classList.add('d-none');
+            document.getElementById('interests-page').classList.remove('d-none');
+        });
+
+        // Group Selection Logic
+        const groupOptions = document.querySelectorAll('.group-option');
+        groupOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                groupOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
