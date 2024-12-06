@@ -279,82 +279,97 @@
         window.AuthManager = new AuthManager();
     
         // DOM Elements
-        const courseList = document.getElementById('courseList');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const levelFilter = document.getElementById('levelFilter');
-        const tagsFilter = document.getElementById('tagsFilter');
+const courseList = document.getElementById('courseList');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const levelFilter = document.getElementById('levelFilter');
+const tagsFilter = document.getElementById('tagsFilter');
+
+// Course Rendering Function - Modified to add data attributes for full course details
+function createCourseCard(course) {
+    // Convert course object to a JSON string to pass all details
+    const courseDetailsJson = encodeURIComponent(JSON.stringify(course));
     
-        // Course Rendering Function
-        function createCourseCard(course) {
-            return `
-                <div class="col-md-4 mb-4 course-item" 
-                     data-name="${course.name}" 
-                     data-category="${course.category}" 
-                     data-level="${course.level}" 
-                     data-tags='${JSON.stringify(course.tags)}'>
-                    <div class="card course-card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">${course.name}</h5>
-                            <p class="card-text">${course.description}</p>
-                            <div class="course-info">
-                                <p class="mb-1"><strong>Category:</strong> ${course.category}</p>
-                                <p class="mb-1"><strong>Level:</strong> ${course.level}</p>
-                                <p class="mb-1"><strong>Tags:</strong> ${(course.tags || []).join(', ')}</p>
-                                <p class="mb-1"><strong>Duration:</strong> ${course.duration}</p>
-                                <p class="mb-1"><strong>Instructor:</strong> ${course.instructor}</p>
-                            </div>
-                        </div>
+    return `
+        <div class="col-md-4 mb-4 course-item course-card-link" 
+             data-course-details="${courseDetailsJson}"
+             data-name="${course.name}" 
+             data-category="${course.category}" 
+             data-level="${course.level}" 
+             data-tags='${JSON.stringify(course.tags)}'>
+            <div class="card course-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">${course.name}</h5>
+                    <p class="card-text">${course.description}</p>
+                    <div class="course-info">
+                        <p class="mb-1"><strong>Category:</strong> ${course.category}</p>
+                        <p class="mb-1"><strong>Level:</strong> ${course.level}</p>
+                        <p class="mb-1"><strong>Tags:</strong> ${(course.tags || []).join(', ')}</p>
+                        <p class="mb-1"><strong>Duration:</strong> ${course.duration}</p>
+                        <p class="mb-1"><strong>Instructor:</strong> ${course.instructor}</p>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    `;
+}
+
+// Fetch Courses - Remains mostly the same as in the original script
+async function fetchCourses() {
+    const database = getDatabase();
+    const coursesRef = ref(database, 'courses');
     
-        // Fetch Courses
-        async function fetchCourses() {
-            const database = getDatabase();
-            const coursesRef = ref(database, 'courses');
-            
-            try {
-                const snapshot = await get(coursesRef);
+    try {
+        const snapshot = await get(coursesRef);
+        
+        if (snapshot.exists()) {
+            const courses = [];
+            const categories = new Set(['All Categories']);
+            const levels = new Set(['All Levels']);
+            const tags = new Set(['All Tags']);
+
+            snapshot.forEach((childSnapshot) => {
+                const courseData = childSnapshot.val();
+                courses.push(courseData);
+
+                // Populate filter dropdowns
+                categories.add(courseData.category);
+                levels.add(courseData.level);
                 
-                if (snapshot.exists()) {
-                    const courses = [];
-                    const categories = new Set(['All Categories']);
-                    const levels = new Set(['All Levels']);
-                    const tags = new Set(['All Tags']);
-    
-                    snapshot.forEach((childSnapshot) => {
-                        const courseData = childSnapshot.val();
-                        courses.push(courseData);
-    
-                        // Populate filter dropdowns
-                        categories.add(courseData.category);
-                        levels.add(courseData.level);
-                        
-                        // Add all unique tags
-                        (courseData.tags || []).forEach(tag => tags.add(tag));
-                    });
-    
-                    // Render courses
-                    courseList.innerHTML = courses.map(createCourseCard).join('');
-    
-                    // Populate filter dropdowns
-                    populateDropdown(categoryFilter, categories);
-                    populateDropdown(levelFilter, levels);
-                    populateDropdown(tagsFilter, tags);
-    
-                    // Setup filtering
-                    setupFiltering();
-                } else {
-                    console.log("No courses found");
-                    courseList.innerHTML = '<p>No courses available</p>';
-                }
-            } catch (error) {
-                console.error("Error fetching courses:", error);
-                courseList.innerHTML = '<p>Error loading courses</p>';
-            }
+                // Add all unique tags
+                (courseData.tags || []).forEach(tag => tags.add(tag));
+            });
+
+            // Render courses
+            courseList.innerHTML = courses.map(createCourseCard).join('');
+
+            // Add click event listeners to course cards
+            document.querySelectorAll('.course-card-link').forEach(card => {
+                card.addEventListener('click', () => {
+                    const courseDetails = card.getAttribute('data-course-details');
+                    // Store course details in localStorage to retrieve on the course detail page
+                    localStorage.setItem('selectedCourse', courseDetails);
+                    // Navigate to course detail page
+                    window.location.href = 'course-details.html';
+                });
+            });
+
+            // Populate filter dropdowns
+            populateDropdown(categoryFilter, categories);
+            populateDropdown(levelFilter, levels);
+            populateDropdown(tagsFilter, tags);
+
+            // Setup filtering
+            setupFiltering();
+        } else {
+            console.log("No courses found");
+            courseList.innerHTML = '<p>No courses available</p>';
         }
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        courseList.innerHTML = '<p>Error loading courses</p>';
+    }
+}
     
         // Populate Dropdown
         function populateDropdown(selectElement, options) {
