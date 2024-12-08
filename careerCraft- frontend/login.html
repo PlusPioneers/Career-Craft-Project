@@ -3,71 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft - My Courses</title>
+    <title>Career Craft - Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <style>
-        /* Brand Colors */
-        .brand-orange {
-            color: #fd7e14;
-        }
-        .brand-green {
-            color: #198754;
-        }
-        
         :root {
             --primary-orange: #FF6B00;
             --primary-green: #4CAF50;
         }
         
-        .navbar-brand img {
-            height: 40px;
+        .brand-orange {
+            color: var(--primary-orange);
         }
         
-        .navbar-nav .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: var(--primary-orange) !important;
+        .brand-green {
+            color: var(--primary-green);
         }
         
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .nav-link {
-            color: #ffffff;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: #fd7e14;
-        }
-        
-        .nav-link.active {
-            color: #fd7e14;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            text-decoration: none;
-        }
-        
-        .profile-img {
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .profile-img:hover {
-            transform: scale(1.25);
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
         }
         
         .footer {
@@ -75,155 +32,75 @@
             color: white;
             padding: 2rem 0;
         }
-
-        /* Login Page Styles */
-        #login-page {
-            background-color: #f4f4f4;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .login-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 2rem;
-        }
-
-        /* Recommendations Styles */
-        #dashboard-page {
-            background-color: #f8f9fa;
-        }
-
-        .recommended-course-card {
-            background-color: #002B3D;
-            color: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .recommended-course-card:hover {
-            transform: translateY(-5px);
+        
+        .navbar-brand img {
+            height: 40px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <!-- Brand -->
-            <a href="index.html" class="navbar-brand d-flex align-items-center">
-                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
-                <span class="brand-orange">CAREER</span>
-                <span class="brand-green ms-2">CRAFT</span>
-            </a>
-
-            <!-- Mobile Toggle -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Navigation Links -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-5">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link active pt-3">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
-                    </li>
-                </ul>
-                <!-- Profile Picture -->
-                <div class="ms-3">
-                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
-                </div>
+    <div class="container">
+        <div class="login-container">
+            <div class="text-center mb-4">
+                <h2>
+                    <span class="brand-orange">CAREER</span>
+                    <span class="brand-green">CRAFT</span>
+                </h2>
+                <p class="text-muted">Sign in to your account</p>
             </div>
-        </div>
-    </nav>
-
-    <!-- Login Page -->
-    <div id="login-page" class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 login-container">
-                <h2 class="text-center mb-4">Login to My Courses</h2>
-                <form id="login-form">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" required>
-                    </div>
-                    <div id="login-error" class="alert alert-danger d-none"></div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary" style="background-color: var(--primary-orange); border-color: var(--primary-orange);">
+                        Login
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="signUp.html" class="text-decoration-none brand-green">Sign Up</a></p>
             </div>
         </div>
     </div>
 
-    <!-- Dashboard Page -->
-    <div id="dashboard-page" class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4">My Recommended Courses</h2>
-                <button id="logout-btn" class="btn btn-danger mb-3">Logout</button>
-                <div id="recommendations-loading" class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                <div id="recommendations-container" class="row">
-                    <!-- Recommendations will be dynamically inserted here -->
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Footer -->
+    <!-- Footer (from original profile page) -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
                     </h5>
-                    <p>Crafting Skills, Shaping Futures</p>
+                    <p class="text-white">Crafting Skills, Shaping Futures</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <h5>Contact Information:</h5>
-                    <p>Email: support@careercraft.com</p>
-                    <p>Phone: +91 9940587477</p>
-                    <p>Address: 123 Career Street, Education City, India.</p>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
                 </div>
             </div>
             <div class="text-center mt-4">
-                <p>© 2024 Career Craft. All Rights Reserved</p>
+                <p class="text-white">© 2024 Career Craft. All Rights Reserved</p>
             </div>
         </div>
     </footer>
 
-    <!-- Firebase and Authentication Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
             authDomain: "career-craft-1667.firebaseapp.com",
@@ -235,161 +112,22 @@
             measurementId: "G-YND0YL7Y94"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const database = getDatabase(app);
 
-        // Authentication Elements
-        const loginForm = document.getElementById('login-form');
-        const loginPage = document.getElementById('login-page');
-        const loginContainer = document.querySelector('.login-container');
-        const dashboardPage = document.getElementById('dashboard-page');
-        const recommendationsContainer = document.getElementById('recommendations-container');
-        const recommendationsLoading = document.getElementById('recommendations-loading');
-        const loginError = document.getElementById('login-error');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        // Login Handler
-        loginForm.addEventListener('submit', async (e) => {
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             try {
-                loginError.classList.add('d-none');
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                await fetchRecommendations(user.uid);
+                window.location.href = `student dashboard.html?userId=${user.uid}`;
             } catch (error) {
-                loginError.textContent = 'Login failed: ' + error.message;
-                loginError.classList.remove('d-none');
+                alert('Login failed: ' + error.message);
             }
         });
-
-        // Logout Handler
-        logoutBtn.addEventListener('click', async () => {
-            await signOut(auth);
-            showLoginPage();
-        });
-
-        // Fetch Recommendations
-        async function fetchRecommendations(studentId) {
-            recommendationsLoading.style.display = 'block';
-            recommendationsContainer.innerHTML = '';
-            
-            // Hide login container and show recommendations
-            loginContainer.style.display = 'none';
-            recommendationsContainer.style.display = 'flex';
-
-            try {
-                // Fetch student data
-                const studentRef = ref(database, `students/${studentId}`);
-                const studentSnapshot = await get(studentRef);
-                const student = studentSnapshot.val();
-
-                if (!student) {
-                    throw new Error('Student not found');
-                }
-
-                // Fetch all courses
-                const coursesRef = ref(database, 'courses');
-                const coursesSnapshot = await get(coursesRef);
-                const coursesData = coursesSnapshot.val();
-
-                // Convert courses to array
-                const courses = Object.entries(coursesData).map(([id, course]) => ({
-                    id,
-                    ...course
-                }));
-
-                // Recommendation Logic
-                const recommendations = courses
-                    .filter(course => course.category === student.group)
-                    .map(course => ({
-                        ...course,
-                        score: 1
-                    }));
-
-                // If no group-specific courses, use interests
-                if (recommendations.length === 0 || !student.group) {
-                    recommendations.push(
-                        ...courses.map(course => ({
-                            ...course,
-                            score: calculateInterestSimilarity(student.interests, course.tags)
-                        }))
-                    );
-                }
-
-                // Sort and display top 5 recommendations
-                const topRecommendations = recommendations
-                    .sort((a, b) => b.score - a.score)
-                    .slice(0, 5);
-
-                topRecommendations.forEach(course => {
-                    const courseCard = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card recommended-course-card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${course.name}</h5>
-                                    <p class="card-text">${course.description || 'No description available'}</p>
-                                    <span class="badge bg-primary">
-                                        Recommendation Score: ${course.score.toFixed(2)}
-                                    </span>
-                                    <button class="btn btn-success mt-3">Start Course</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    recommendationsContainer.innerHTML += courseCard;
-                });
-
-                recommendationsLoading.style.display = 'none';
-            } catch (error) {
-                console.error('Recommendations error:', error);
-                recommendationsContainer.innerHTML = `
-                    <div class="col-12">
-                        <div class="alert alert-danger">
-                            Failed to fetch recommendations: ${error.message}
-                        </div>
-                    </div>
-                `;
-                recommendationsLoading.style.display = 'none';
-            }
-        }
-
-        // Calculate Interest Similarity
-        function calculateInterestSimilarity(studentInterests, courseTags) {
-            if (!studentInterests || !courseTags) return 0;
-            
-            const interests = new Set(studentInterests.map(i => i.toLowerCase()));
-            const tags = new Set(courseTags.map(t => t.toLowerCase()));
-            
-            const intersection = new Set([...interests].filter(i => tags.has(i)));
-            return intersection.size / Math.max(interests.size, tags.size);
-        }
-
-        // Authentication State Observer
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // User is signed in, show recommendations directly
-                await fetchRecommendations(user.uid);
-            } else {
-                // No user is signed in, show login container
-                loginContainer.style.display = 'block';
-                recommendationsContainer.style.display = 'none';
-            }
-        });
-
-        // Show Login Page
-        function showLoginPage() {
-            loginContainer.style.display = 'block';
-            recommendationsContainer.style.display = 'none';
-        }
     </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
