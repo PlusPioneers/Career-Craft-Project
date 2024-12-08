@@ -3,101 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Recommendation System</title>
+    <title>Career Craft - My Courses</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        
         :root {
             --primary-orange: #FF6B00;
             --primary-green: #4CAF50;
         }
         
-        .brand-orange {
-            color: var(--primary-orange);
+        .navbar-brand img {
+            height: 40px;
         }
         
-        .brand-green {
-            color: var(--primary-green);
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+
+        /* Login Page Styles */
+        #login-page {
+            background-color: #f4f4f4;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        /* Recommendations Styles */
+        #dashboard-page {
+            background-color: #f8f9fa;
+        }
+
+        .recommended-course-card {
+            background-color: #002B3D;
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .recommended-course-card:hover {
+            transform: translateY(-5px);
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
                 <span class="brand-orange">CAREER</span>
-                <span class="brand-green">CRAFT</span>
+                <span class="brand-green ms-2">CRAFT</span>
             </a>
-            <button class="btn btn-outline-danger" id="logout-btn">Logout</button>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
         </div>
     </nav>
 
     <!-- Login Page -->
-    <div id="login-page" class="container mt-5">
+    <div id="login-page" class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Login</div>
-                    <div class="card-body">
-                        <div id="login-error" class="alert alert-danger d-none"></div>
-                        <form id="login-form">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-orange); border-color: var(--primary-orange);">Login</button>
-                        </form>
+            <div class="col-md-6 login-container">
+                <h2 class="text-center mb-4">Login to My Courses</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" required>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div id="login-error" class="alert alert-danger d-none"></div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
             </div>
         </div>
     </div>
 
     <!-- Dashboard Page -->
-    <div id="dashboard-page" class="container mt-5" style="display: none;">
-        <h2 class="mb-4">Recommended Courses</h2>
-        <div id="recommendations-loading" class="text-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
+    <div id="dashboard-page" class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">My Recommended Courses</h2>
+                <button id="logout-btn" class="btn btn-danger mb-3">Logout</button>
+                <div id="recommendations-loading" class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div id="recommendations-container" class="row">
+                    <!-- Recommendations will be dynamically inserted here -->
+                </div>
             </div>
         </div>
-        <div id="recommendations-container" class="row">
-            <!-- Recommendations will be dynamically inserted here -->
-        </div>
     </div>
-
+    
     <!-- Footer -->
-    <footer class="footer mt-5" style="background-color: #000; color: white; padding: 2rem 0;">
+    <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
                     </h5>
-                    <p class="text-white">Crafting Skills, Shaping Futures</p>
+                    <p>Crafting Skills, Shaping Futures</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <h5>Contact Information:</h5>
-                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p>Email: support@careercraft.com</p>
+                    <p>Phone: +91 9940587477</p>
+                    <p>Address: 123 Career Street, Education City, India.</p>
                 </div>
             </div>
             <div class="text-center mt-4">
-                <p class="text-white">© 2024 Career Craft. All Rights Reserved</p>
+                <p>© 2024 Career Craft. All Rights Reserved</p>
             </div>
         </div>
     </footer>
 
-    <!-- Firebase and App Scripts -->
+    <!-- Firebase and Authentication Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -119,6 +243,7 @@
         // Authentication Elements
         const loginForm = document.getElementById('login-form');
         const loginPage = document.getElementById('login-page');
+        const loginContainer = document.querySelector('.login-container');
         const dashboardPage = document.getElementById('dashboard-page');
         const recommendationsContainer = document.getElementById('recommendations-container');
         const recommendationsLoading = document.getElementById('recommendations-loading');
@@ -152,12 +277,14 @@
         async function fetchRecommendations(studentId) {
             recommendationsLoading.style.display = 'block';
             recommendationsContainer.innerHTML = '';
-            loginPage.style.display = 'none';
-            dashboardPage.style.display = 'block';
+            
+            // Hide login container and show recommendations
+            loginContainer.style.display = 'none';
+            recommendationsContainer.style.display = 'flex';
 
             try {
                 // Fetch student data
-                const studentRef = ref(database, `students/${studentId}`);
+                const studentRef = ref(database, students/${studentId});
                 const studentSnapshot = await get(studentRef);
                 const student = studentSnapshot.val();
 
@@ -202,13 +329,14 @@
                 topRecommendations.forEach(course => {
                     const courseCard = `
                         <div class="col-md-4 mb-4">
-                            <div class="card h-100">
+                            <div class="card recommended-course-card h-100">
                                 <div class="card-body">
                                     <h5 class="card-title">${course.name}</h5>
                                     <p class="card-text">${course.description || 'No description available'}</p>
                                     <span class="badge bg-primary">
                                         Recommendation Score: ${course.score.toFixed(2)}
                                     </span>
+                                    <button class="btn btn-success mt-3">Start Course</button>
                                 </div>
                             </div>
                         </div>
@@ -244,17 +372,24 @@
         // Authentication State Observer
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                // User is signed in, show recommendations directly
                 await fetchRecommendations(user.uid);
             } else {
-                showLoginPage();
+                // No user is signed in, show login container
+                loginContainer.style.display = 'block';
+                recommendationsContainer.style.display = 'none';
             }
         });
 
         // Show Login Page
         function showLoginPage() {
-            loginPage.style.display = 'block';
-            dashboardPage.style.display = 'none';
+            loginContainer.style.display = 'block';
+            recommendationsContainer.style.display = 'none';
         }
     </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
