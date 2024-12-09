@@ -1,11 +1,17 @@
+Updated Recommendations Page with Course Library Design
+Preview
+Code
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft - My Courses</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Career Craft - Personalized Recommendations</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     
     <style>
         /* Brand Colors */
@@ -38,21 +44,17 @@
             background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
         .nav-link {
             color: #ffffff;
             font-weight: 500;
             transition: color 0.3s ease;
         }
-        
         .nav-link:hover {
             color: #fd7e14;
         }
-        
         .nav-link.active {
             color: #fd7e14;
         }
-        
         .navbar-brand {
             font-weight: 700;
             text-decoration: none;
@@ -64,44 +66,31 @@
             cursor: pointer;
             transition: transform 0.3s ease;
         }
-        
         .profile-img:hover {
             transform: scale(1.25);
         }
         
+        .course-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .course-info {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
         .footer {
-            background-color: #000;
+            background: #000;
             color: white;
             padding: 2rem 0;
-        }
-
-        #dashboard-page {
-            background-color: #f8f9fa;
-            min-height: 100vh;
-        }
-
-        .recommended-course-card {
-            background-color: #002B3D;
-            color: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .recommended-course-card:hover {
-            transform: translateY(-5px);
-        }
-        #dashboard-page {
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        #error-container {
-            display: none;
-            color: red;
-            margin: 20px 0;
+            margin-top: 3rem;
         }
     </style>
 </head>
@@ -148,29 +137,28 @@
         </div>
     </nav>
 
-    <div id="dashboard-page" class="container mt-5">
-        <div id="error-container" class="alert alert-danger"></div>
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4">My Recommended Courses</h2>
-                <div id="recommendations-loading" class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
-                <div id="recommendations-container" class="row">
-                    <!-- Recommendations will be dynamically inserted here -->
-                </div>
+    <div class="container py-5">
+        <h2 class="mb-4">Personalized Course Recommendations</h2>
+        
+        <div id="error-container" class="alert alert-danger" style="display:none;"></div>
+        
+        <div id="loading-spinner" class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+        
+        <div id="recommendations-container" class="row">
+            <!-- Recommendations will be dynamically inserted here -->
+        </div>
     </div>
-    
+
     <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
@@ -179,9 +167,9 @@
                 </div>
                 <div class="col-md-6 text-md-end">
                     <h5>Contact Information:</h5>
-                    <p>Email: support@careercraft.com</p>
-                    <p>Phone: +91 9940587477</p>
-                    <p>Address: 123 Career Street, Education City, India.</p>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
                 </div>
             </div>
             <div class="text-center mt-4">
@@ -189,11 +177,16 @@
             </div>
         </div>
     </footer>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.7.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Firebase and Authentication Script -->
     <script type="module">
+        // Import Firebase modules directly
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // Firebase Configuration
@@ -202,180 +195,239 @@
             authDomain: "career-craft-1667.firebaseapp.com",
             databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "career-craft-1667",
-            storageBucket: "career-craft-1667.firebasestorage.app",
+            storageBucket: "career-craft-1667.appspot.com",
             messagingSenderId: "616676439535",
-            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
-            measurementId: "G-YND0YL7Y94"
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a"
         };
 
-        // Initialize Firebase
+        // Initialize Firebase explicitly
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
-
-        // Get DOM elements with error handling
-        const recommendationsContainer = document.getElementById('recommendations-container');
-        const recommendationsLoading = document.getElementById('recommendations-loading');
-        const errorContainer = document.getElementById('error-container');
-
-        // Ensure elements exist
-        if (!recommendationsContainer || !recommendationsLoading || !errorContainer) {
-            console.error('One or more required DOM elements are missing');
-            errorContainer.style.display = 'block';
-            errorContainer.textContent = 'Page setup error: Missing required elements';
+    class RecommendationEngine {
+        constructor() {
+            this.courses = [];
+            this.studentProfile = null;
         }
 
-        // Fetch Recommendations
-        async function fetchRecommendations(studentId) {
-    try {
-        // Show loading, clear previous content
-        recommendationsLoading.style.display = 'block';
-        recommendationsContainer.innerHTML = '';
-        errorContainer.style.display = 'none';
-
-        // Fetch student data
-        const studentRef = ref(database, `students/${studentId}`);
-        const studentSnapshot = await get(studentRef);
-        const student = studentSnapshot.val();
-
-        console.log('Student Data:', student); // Debug log
-
-        if (!student) {
-            throw new Error('Student profile not found');
+        // One-hot encoding for categorical features
+        oneHotEncode(value, categories) {
+            return categories.map(cat => value === cat ? 1 : 0);
         }
 
-        // Fetch all courses
-        const coursesRef = ref(database, 'courses');
-        const coursesSnapshot = await get(coursesRef);
-        const coursesData = coursesSnapshot.val();
+        // Generate feature vector for a course
+        generateCourseFeatures(course, allCategories, allTags) {
+            const categoryFeatures = this.oneHotEncode(course.category, allCategories);
+            const levelFeatures = this.oneHotEncode(course.level, ['Beginner', 'Intermediate', 'Advanced']);
+            
+            const tagFeatures = allTags.map(tag => 
+                course.tags && course.tags.includes(tag) ? 1 : 0
+            );
 
-        console.log('Courses Data:', coursesData); // Debug log
+            return [...categoryFeatures, ...levelFeatures, ...tagFeatures];
+        }
 
-        // Convert courses to array
-        const courses = Object.entries(coursesData || {}).map(([id, course]) => ({
-            id,
-            ...course
-        }));
+        // Generate feature vector for student
+        generateStudentFeatures(student, allCategories, allTags) {
+            const groupFeature = this.oneHotEncode(student.group, allCategories);
+            const levelFeature = this.oneHotEncode(student.educationLevel, ['School', 'Undergraduate', 'Graduate']);
+            
+            const interestFeatures = allTags.map(tag => 
+                student.interests && student.interests.includes(tag) ? 1 : 0
+            );
 
-        // Recommendation Logic
-        const recommendations = courses
-            .filter(course => course.category === student.group)
-            .map(course => ({
-                ...course,
-                score: 1
+            return [...groupFeature, ...levelFeature, ...interestFeatures];
+        }
+
+        // Calculate cosine similarity between two feature vectors
+        cosineSimilarity(vec1, vec2) {
+            const tensor1 = tf.tensor(vec1);
+            const tensor2 = tf.tensor(vec2);
+
+            const dotProduct = tf.sum(tf.mul(tensor1, tensor2)).arraySync();
+            const magnitude1 = Math.sqrt(tf.sum(tf.square(tensor1)).arraySync());
+            const magnitude2 = Math.sqrt(tf.sum(tf.square(tensor2)).arraySync());
+
+            return dotProduct / (magnitude1 * magnitude2);
+        }
+
+        // Generate recommendations
+        generateRecommendations() {
+            // Collect all unique categories and tags
+            const allCategories = [...new Set(this.courses.map(c => c.category))];
+            const allTags = [...new Set(this.courses.flatMap(c => c.tags || []))];
+
+            // Filter courses to include only Beginner level
+            const beginnerCourses = this.courses.filter(course => course.level === 'Beginner');
+
+            // Find English course if exists
+            const englishCourse = beginnerCourses.find(course => 
+                course.category.toLowerCase() === 'english'
+            );
+
+            // Transform courses and student profile to feature vectors
+            const courseFeatures = beginnerCourses.map(course => 
+                this.generateCourseFeatures(course, allCategories, allTags)
+            );
+
+            const studentFeature = this.generateStudentFeatures(
+                this.studentProfile, 
+                allCategories, 
+                allTags
+            );
+
+            // Calculate similarity scores
+            const similarities = courseFeatures.map((courseFeature, index) => ({
+                course: beginnerCourses[index],
+                similarity: this.cosineSimilarity(studentFeature, courseFeature)
             }));
 
-        // If no group-specific courses, use interests
-        if (recommendations.length === 0 || !student.group) {
-            recommendations.push(
-                ...courses.map(course => ({
-                    ...course,
-                    score: calculateInterestSimilarity(student.interests, course.tags)
-                }))
-            );
+            // Sort recommendations
+            let recommendations = similarities
+                .sort((a, b) => b.similarity - a.similarity)
+                .slice(0, 5);
+
+            // Ensure English course is included if it exists
+            if (englishCourse) {
+                // Remove an existing recommendation if we need space
+                if (recommendations.length >= 5) {
+                    recommendations.pop();
+                }
+                recommendations.push({
+                    course: englishCourse,
+                    similarity: 1 // High priority for English course
+                });
+            }
+
+            return recommendations;
         }
 
-        // Sort and display top 5 recommendations
-        const topRecommendations = recommendations
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 5);
+        // Set data for recommendations
+        setData(studentProfile, courses) {
+            this.studentProfile = studentProfile;
+            this.courses = courses;
+        }
+    }
 
-        console.log('Top Recommendations:', topRecommendations); // Debug log
+    async function fetchRecommendations(studentId) {
+            try {
+                const loadingSpinner = document.getElementById('loading-spinner');
+                const recommendationsContainer = document.getElementById('recommendations-container');
+                const errorContainer = document.getElementById('error-container');
 
-        if (topRecommendations.length === 0) {
-            recommendationsContainer.innerHTML = `
-                <div class="col-12">
-                    <div class="alert alert-info">
-                        No recommendations found for your profile.
-                    </div>
-                </div>
-            `;
-        } else {
-            topRecommendations.forEach(course => {
-                // Convert course object to a JSON string to pass all details
-                const courseDetailsJson = encodeURIComponent(JSON.stringify(course));
-                
-                const courseCard = `
-                    <div class="col-md-4 mb-4 course-item course-card-link" 
-                         data-course-details="${courseDetailsJson}"
-                         data-name="${course.name}" 
-                         data-category="${course.category}" 
-                         data-level="${course.level}" 
-                         data-tags='${JSON.stringify(course.tags || [])}'>
-                        <div class="card course-card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">${course.name}</h5>
-                                <p class="card-text">${course.description}</p>
-                                <div class="course-info">
-                                    <p class="mb-1"><strong>Category:</strong> ${course.category}</p>
-                                    <p class="mb-1"><strong>Level:</strong> ${course.level}</p>
-                                    <p class="mb-1"><strong>Tags:</strong> ${(course.tags || []).join(', ')}</p>
-                                    <p class="mb-1"><strong>Duration:</strong> ${course.duration}</p>
-                                    <p class="mb-1"><strong>Instructor:</strong> ${course.instructor}</p>
-                                    <span class="badge bg-primary">
-                                        Recommendation Score: ${(course.score || 0).toFixed(2)}
-                                    </span>
+                loadingSpinner.style.display = 'block';
+                recommendationsContainer.innerHTML = '';
+                errorContainer.style.display = 'none';
+
+                // Firebase initialization
+                const database = getDatabase();
+
+                // Fetch student data
+                const studentRef = ref(database, `students/${studentId}`);
+                const studentSnapshot = await get(studentRef);
+                const studentProfile = studentSnapshot.val();
+
+                // Fetch courses
+                const coursesRef = ref(database, 'courses');
+                const coursesSnapshot = await get(coursesRef);
+                const coursesData = coursesSnapshot.val();
+
+                const courses = Object.entries(coursesData || {}).map(([id, course]) => ({
+                    id,
+                    ...course
+                }));
+
+                // Initialize and run recommendation engine
+                const recommender = new RecommendationEngine();
+                recommender.setData(studentProfile, courses);
+                const recommendations = recommender.generateRecommendations();
+
+                // Display recommendations
+                if (recommendations.length === 0) {
+                    recommendationsContainer.innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-info">No recommendations found.</div>
+                        </div>
+                    `;
+                } else {
+                    recommendations.forEach(({course, similarity}) => {
+                        // Convert course object to a JSON string to pass all details
+                        const courseDetailsJson = encodeURIComponent(JSON.stringify(course));
+                        
+                        const courseCard = `
+                            <div class="col-md-4 mb-4 course-item course-card-link" 
+                                 data-course-details="${courseDetailsJson}"
+                                 data-name="${course.name}" 
+                                 data-category="${course.category}" 
+                                 data-level="${course.level}" 
+                                 data-tags='${JSON.stringify(course.tags || [])}'>
+                                <div class="card course-card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${course.name}</h5>
+                                        <p class="card-text">${course.description}</p>
+                                        <div class="course-info">
+                                            <p class="mb-1"><strong>Category:</strong> ${course.category}</p>
+                                            <p class="mb-1"><strong>Level:</strong> ${course.level}</p>
+                                            <p class="mb-1"><strong>Tags:</strong> ${(course.tags || []).join(', ')}</p>
+                                            <p class="mb-1"><strong>Duration:</strong> ${course.duration || 'N/A'}</p>
+                                            <p class="mb-1"><strong>Instructor:</strong> ${course.instructor || 'N/A'}</p>
+                                            <p class="mb-1"><strong>Relevance:</strong> ${(similarity * 100).toFixed(2)}%</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                `;
-                recommendationsContainer.innerHTML += courseCard;
-            });
+                        `;
+                        recommendationsContainer.innerHTML += courseCard;
+                    });
 
-            // Add click event listeners to course cards
-            document.querySelectorAll('.course-card-link').forEach(card => {
-                card.addEventListener('click', () => {
-                    const courseDetails = card.getAttribute('data-course-details');
-                    // Store course details in localStorage to retrieve on the course detail page
-                    localStorage.setItem('selectedCourse', courseDetails);
-                    // Navigate to course detail page
-                    window.location.href = 'course-details.html';
-                });
-            });
-        }
-
-        recommendationsLoading.style.display = 'none';
-    } catch (error) {
-        console.error('Recommendations error:', error);
-        recommendationsLoading.style.display = 'none';
-        errorContainer.style.display = 'block';
-        errorContainer.textContent = `Failed to fetch recommendations: ${error.message}`;
-    }
-}
-
-
-        // Calculate Interest Similarity
-        function calculateInterestSimilarity(studentInterests, courseTags) {
-            if (!studentInterests || !courseTags) return 0;
-            
-            const interests = new Set((studentInterests || []).map(i => i.toLowerCase()));
-            const tags = new Set((courseTags || []).map(t => t.toLowerCase()));
-            
-            const intersection = new Set([...interests].filter(i => tags.has(i)));
-            return intersection.size / Math.max(interests.size, tags.size);
-        }
-
-        // Authentication State Observer
-        onAuthStateChanged(auth, async (user) => {
-            try {
-                if (user) {
-                    console.log('User authenticated:', user.uid); // Debug log
-                    await fetchRecommendations(user.uid);
-                } else {
-                    console.log('No user authenticated, redirecting to login'); // Debug log
-                    window.location.href = 'login.html';
+                    // Add click event listeners to course cards
+                    document.querySelectorAll('.course-card-link').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const courseDetails = card.getAttribute('data-course-details');
+                            // Store course details in localStorage to retrieve on the course detail page
+                            localStorage.setItem('selectedCourse', courseDetails);
+                            // Navigate to course detail page
+                            window.location.href = 'course-details.html';
+                        });
+                    });
                 }
+
+                loadingSpinner.style.display = 'none';
             } catch (error) {
-                console.error('Authentication state error:', error);
+                console.error('Recommendation Error:', error);
+                const errorContainer = document.getElementById('error-container');
                 errorContainer.style.display = 'block';
-                errorContainer.textContent = `Authentication error: ${error.message}`;
+                errorContainer.textContent = `Error generating recommendations: ${error.message}`;
+            }
+        }
+
+        // Logout functionality
+        class AuthManager {
+            constructor() {
+                this.app = initializeApp(firebaseConfig);
+                this.auth = getAuth(this.app);
+            }
+
+            async logout() {
+                try {
+                    await signOut(this.auth);
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Logout failed:', error);
+                    alert('Logout failed: ' + error.message);
+                }
+            }
+        }
+
+        window.AuthManager = new AuthManager();
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                await fetchRecommendations(user.uid);
+            } else {
+                window.location.href = 'login.html';
             }
         });
     </script>
-    
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</body>
+    </body>
 </html>
