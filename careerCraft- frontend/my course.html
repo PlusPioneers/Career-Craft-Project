@@ -227,97 +227,123 @@
 
         // Fetch Recommendations
         async function fetchRecommendations(studentId) {
-            try {
-                // Show loading, clear previous content
-                recommendationsLoading.style.display = 'block';
-                recommendationsContainer.innerHTML = '';
-                errorContainer.style.display = 'none';
+    try {
+        // Show loading, clear previous content
+        recommendationsLoading.style.display = 'block';
+        recommendationsContainer.innerHTML = '';
+        errorContainer.style.display = 'none';
 
-                // Fetch student data
-                const studentRef = ref(database, `students/${studentId}`);
-                const studentSnapshot = await get(studentRef);
-                const student = studentSnapshot.val();
+        // Fetch student data
+        const studentRef = ref(database, `students/${studentId}`);
+        const studentSnapshot = await get(studentRef);
+        const student = studentSnapshot.val();
 
-                console.log('Student Data:', student); // Debug log
+        console.log('Student Data:', student); // Debug log
 
-                if (!student) {
-                    throw new Error('Student profile not found');
-                }
+        if (!student) {
+            throw new Error('Student profile not found');
+        }
 
-                // Fetch all courses
-                const coursesRef = ref(database, 'courses');
-                const coursesSnapshot = await get(coursesRef);
-                const coursesData = coursesSnapshot.val();
+        // Fetch all courses
+        const coursesRef = ref(database, 'courses');
+        const coursesSnapshot = await get(coursesRef);
+        const coursesData = coursesSnapshot.val();
 
-                console.log('Courses Data:', coursesData); // Debug log
+        console.log('Courses Data:', coursesData); // Debug log
 
-                // Convert courses to array
-                const courses = Object.entries(coursesData || {}).map(([id, course]) => ({
-                    id,
-                    ...course
-                }));
+        // Convert courses to array
+        const courses = Object.entries(coursesData || {}).map(([id, course]) => ({
+            id,
+            ...course
+        }));
 
-                // Recommendation Logic
-                const recommendations = courses
-                    .filter(course => course.category === student.group)
-                    .map(course => ({
-                        ...course,
-                        score: 1
-                    }));
+        // Recommendation Logic
+        const recommendations = courses
+            .filter(course => course.category === student.group)
+            .map(course => ({
+                ...course,
+                score: 1
+            }));
 
-                // If no group-specific courses, use interests
-                if (recommendations.length === 0 || !student.group) {
-                    recommendations.push(
-                        ...courses.map(course => ({
-                            ...course,
-                            score: calculateInterestSimilarity(student.interests, course.tags)
-                        }))
-                    );
-                }
+        // If no group-specific courses, use interests
+        if (recommendations.length === 0 || !student.group) {
+            recommendations.push(
+                ...courses.map(course => ({
+                    ...course,
+                    score: calculateInterestSimilarity(student.interests, course.tags)
+                }))
+            );
+        }
 
-                // Sort and display top 5 recommendations
-                const topRecommendations = recommendations
-                    .sort((a, b) => b.score - a.score)
-                    .slice(0, 5);
+        // Sort and display top 5 recommendations
+        const topRecommendations = recommendations
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 5);
 
-                console.log('Top Recommendations:', topRecommendations); // Debug log
+        console.log('Top Recommendations:', topRecommendations); // Debug log
 
-                if (topRecommendations.length === 0) {
-                    recommendationsContainer.innerHTML = `
-                        <div class="col-12">
-                            <div class="alert alert-info">
-                                No recommendations found for your profile.
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    topRecommendations.forEach(course => {
-                        const courseCard = `
-                            <div class="col-md-4 mb-4">
-                                <div class="card recommended-course-card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${course.name || 'Unnamed Course'}</h5>
-                                        <p class="card-text">${course.description || 'No description available'}</p>
-                                        <span class="badge bg-primary">
-                                            Recommendation Score: ${(course.score || 0).toFixed(2)}
-                                        </span>
-                                        <button class="btn btn-success mt-3">Start Course</button>
-                                    </div>
+        if (topRecommendations.length === 0) {
+            recommendationsContainer.innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        No recommendations found for your profile.
+                    </div>
+                </div>
+            `;
+        } else {
+            topRecommendations.forEach(course => {
+                // Convert course object to a JSON string to pass all details
+                const courseDetailsJson = encodeURIComponent(JSON.stringify(course));
+                
+                const courseCard = `
+                    <div class="col-md-4 mb-4 course-item course-card-link" 
+                         data-course-details="${courseDetailsJson}"
+                         data-name="${course.name}" 
+                         data-category="${course.category}" 
+                         data-level="${course.level}" 
+                         data-tags='${JSON.stringify(course.tags || [])}'>
+                        <div class="card course-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${course.name}</h5>
+                                <p class="card-text">${course.description}</p>
+                                <div class="course-info">
+                                    <p class="mb-1"><strong>Category:</strong> ${course.category}</p>
+                                    <p class="mb-1"><strong>Level:</strong> ${course.level}</p>
+                                    <p class="mb-1"><strong>Tags:</strong> ${(course.tags || []).join(', ')}</p>
+                                    <p class="mb-1"><strong>Duration:</strong> ${course.duration}</p>
+                                    <p class="mb-1"><strong>Instructor:</strong> ${course.instructor}</p>
+                                    <span class="badge bg-primary">
+                                        Recommendation Score: ${(course.score || 0).toFixed(2)}
+                                    </span>
                                 </div>
                             </div>
-                        `;
-                        recommendationsContainer.innerHTML += courseCard;
-                    });
-                }
+                        </div>
+                    </div>
+                `;
+                recommendationsContainer.innerHTML += courseCard;
+            });
 
-                recommendationsLoading.style.display = 'none';
-            } catch (error) {
-                console.error('Recommendations error:', error);
-                recommendationsLoading.style.display = 'none';
-                errorContainer.style.display = 'block';
-                errorContainer.textContent = `Failed to fetch recommendations: ${error.message}`;
-            }
+            // Add click event listeners to course cards
+            document.querySelectorAll('.course-card-link').forEach(card => {
+                card.addEventListener('click', () => {
+                    const courseDetails = card.getAttribute('data-course-details');
+                    // Store course details in localStorage to retrieve on the course detail page
+                    localStorage.setItem('selectedCourse', courseDetails);
+                    // Navigate to course detail page
+                    window.location.href = 'course-details.html';
+                });
+            });
         }
+
+        recommendationsLoading.style.display = 'none';
+    } catch (error) {
+        console.error('Recommendations error:', error);
+        recommendationsLoading.style.display = 'none';
+        errorContainer.style.display = 'block';
+        errorContainer.textContent = `Failed to fetch recommendations: ${error.message}`;
+    }
+}
+
 
         // Calculate Interest Similarity
         function calculateInterestSimilarity(studentInterests, courseTags) {
