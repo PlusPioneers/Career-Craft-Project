@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Craft - My Courses</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
@@ -76,24 +75,9 @@
             padding: 2rem 0;
         }
 
-        /* Login Page Styles */
-        #login-page {
-            background-color: #f4f4f4;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .login-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 2rem;
-        }
-
-        /* Recommendations Styles */
         #dashboard-page {
             background-color: #f8f9fa;
+            min-height: 100vh;
         }
 
         .recommended-course-card {
@@ -107,6 +91,17 @@
 
         .recommended-course-card:hover {
             transform: translateY(-5px);
+        }
+        #dashboard-page {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        #error-container {
+            display: none;
+            color: red;
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -153,33 +148,11 @@
         </div>
     </nav>
 
-    <!-- Login Page -->
-    <div id="login-page" class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 login-container">
-                <h2 class="text-center mb-4">Login to My Courses</h2>
-                <form id="login-form">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" required>
-                    </div>
-                    <div id="login-error" class="alert alert-danger d-none"></div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Dashboard Page -->
     <div id="dashboard-page" class="container mt-5">
+        <div id="error-container" class="alert alert-danger"></div>
         <div class="row">
             <div class="col-12">
                 <h2 class="mb-4">My Recommended Courses</h2>
-                <button id="logout-btn" class="btn btn-danger mb-3">Logout</button>
                 <div id="recommendations-loading" class="text-center">
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -220,7 +193,7 @@
     <!-- Firebase and Authentication Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // Firebase Configuration
@@ -240,56 +213,35 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // Authentication Elements
-        const loginForm = document.getElementById('login-form');
-        const loginPage = document.getElementById('login-page');
-        const loginContainer = document.querySelector('.login-container');
-        const dashboardPage = document.getElementById('dashboard-page');
+        // Get DOM elements with error handling
         const recommendationsContainer = document.getElementById('recommendations-container');
         const recommendationsLoading = document.getElementById('recommendations-loading');
-        const loginError = document.getElementById('login-error');
-        const logoutBtn = document.getElementById('logout-btn');
+        const errorContainer = document.getElementById('error-container');
 
-        // Login Handler
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                loginError.classList.add('d-none');
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                await fetchRecommendations(user.uid);
-            } catch (error) {
-                loginError.textContent = 'Login failed: ' + error.message;
-                loginError.classList.remove('d-none');
-            }
-        });
-
-        // Logout Handler
-        logoutBtn.addEventListener('click', async () => {
-            await signOut(auth);
-            showLoginPage();
-        });
+        // Ensure elements exist
+        if (!recommendationsContainer || !recommendationsLoading || !errorContainer) {
+            console.error('One or more required DOM elements are missing');
+            errorContainer.style.display = 'block';
+            errorContainer.textContent = 'Page setup error: Missing required elements';
+        }
 
         // Fetch Recommendations
         async function fetchRecommendations(studentId) {
-            recommendationsLoading.style.display = 'block';
-            recommendationsContainer.innerHTML = '';
-            
-            // Hide login container and show recommendations
-            loginContainer.style.display = 'none';
-            recommendationsContainer.style.display = 'flex';
-
             try {
+                // Show loading, clear previous content
+                recommendationsLoading.style.display = 'block';
+                recommendationsContainer.innerHTML = '';
+                errorContainer.style.display = 'none';
+
                 // Fetch student data
                 const studentRef = ref(database, `students/${studentId}`);
                 const studentSnapshot = await get(studentRef);
                 const student = studentSnapshot.val();
 
+                console.log('Student Data:', student); // Debug log
+
                 if (!student) {
-                    throw new Error('Student not found');
+                    throw new Error('Student profile not found');
                 }
 
                 // Fetch all courses
@@ -297,8 +249,10 @@
                 const coursesSnapshot = await get(coursesRef);
                 const coursesData = coursesSnapshot.val();
 
+                console.log('Courses Data:', coursesData); // Debug log
+
                 // Convert courses to array
-                const courses = Object.entries(coursesData).map(([id, course]) => ({
+                const courses = Object.entries(coursesData || {}).map(([id, course]) => ({
                     id,
                     ...course
                 }));
@@ -326,35 +280,42 @@
                     .sort((a, b) => b.score - a.score)
                     .slice(0, 5);
 
-                topRecommendations.forEach(course => {
-                    const courseCard = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card recommended-course-card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">${course.name}</h5>
-                                    <p class="card-text">${course.description || 'No description available'}</p>
-                                    <span class="badge bg-primary">
-                                        Recommendation Score: ${course.score.toFixed(2)}
-                                    </span>
-                                    <button class="btn btn-success mt-3">Start Course</button>
-                                </div>
+                console.log('Top Recommendations:', topRecommendations); // Debug log
+
+                if (topRecommendations.length === 0) {
+                    recommendationsContainer.innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                No recommendations found for your profile.
                             </div>
                         </div>
                     `;
-                    recommendationsContainer.innerHTML += courseCard;
-                });
+                } else {
+                    topRecommendations.forEach(course => {
+                        const courseCard = `
+                            <div class="col-md-4 mb-4">
+                                <div class="card recommended-course-card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${course.name || 'Unnamed Course'}</h5>
+                                        <p class="card-text">${course.description || 'No description available'}</p>
+                                        <span class="badge bg-primary">
+                                            Recommendation Score: ${(course.score || 0).toFixed(2)}
+                                        </span>
+                                        <button class="btn btn-success mt-3">Start Course</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        recommendationsContainer.innerHTML += courseCard;
+                    });
+                }
 
                 recommendationsLoading.style.display = 'none';
             } catch (error) {
                 console.error('Recommendations error:', error);
-                recommendationsContainer.innerHTML = `
-                    <div class="col-12">
-                        <div class="alert alert-danger">
-                            Failed to fetch recommendations: ${error.message}
-                        </div>
-                    </div>
-                `;
                 recommendationsLoading.style.display = 'none';
+                errorContainer.style.display = 'block';
+                errorContainer.textContent = `Failed to fetch recommendations: ${error.message}`;
             }
         }
 
@@ -362,8 +323,8 @@
         function calculateInterestSimilarity(studentInterests, courseTags) {
             if (!studentInterests || !courseTags) return 0;
             
-            const interests = new Set(studentInterests.map(i => i.toLowerCase()));
-            const tags = new Set(courseTags.map(t => t.toLowerCase()));
+            const interests = new Set((studentInterests || []).map(i => i.toLowerCase()));
+            const tags = new Set((courseTags || []).map(t => t.toLowerCase()));
             
             const intersection = new Set([...interests].filter(i => tags.has(i)));
             return intersection.size / Math.max(interests.size, tags.size);
@@ -371,23 +332,22 @@
 
         // Authentication State Observer
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // User is signed in, show recommendations directly
-                await fetchRecommendations(user.uid);
-            } else {
-                // No user is signed in, show login container
-                loginContainer.style.display = 'block';
-                recommendationsContainer.style.display = 'none';
+            try {
+                if (user) {
+                    console.log('User authenticated:', user.uid); // Debug log
+                    await fetchRecommendations(user.uid);
+                } else {
+                    console.log('No user authenticated, redirecting to login'); // Debug log
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Authentication state error:', error);
+                errorContainer.style.display = 'block';
+                errorContainer.textContent = `Authentication error: ${error.message}`;
             }
         });
-
-        // Show Login Page
-        function showLoginPage() {
-            loginContainer.style.display = 'block';
-            recommendationsContainer.style.display = 'none';
-        }
     </script>
-
+    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
