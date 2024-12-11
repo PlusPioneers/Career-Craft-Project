@@ -111,7 +111,7 @@
             font-style: italic;
         }
         .footer {
-            background-color: #181515;
+            background-color: #000;
             color: white;
             padding: 2rem 0;
         }
@@ -196,12 +196,7 @@
                                 <span class="no-data">No data</span>
                             </div>
                         </div>
-                        <div class="mb-4">
-                            <div class="detail-label mb-2">Stream</div>
-                            <div class="detail-value" id="studentStream">
-                                <span class="no-data">No data</span>
-                            </div>
-                        </div>
+                        
                         <div class="mb-4">
                             <div class="detail-label mb-2">Group of Study</div>
                             <div class="detail-value" id="studentGroup">
@@ -329,7 +324,7 @@
                 document.getElementById('studentName').innerHTML = studentData.name || '<span class="no-data">No data</span>';
                 document.getElementById('studentId').innerHTML = userId || '<span class="no-data">No data</span>';
                 document.getElementById('studentGrade').innerHTML = `${studentData.grade}th Grade` || '<span class="no-data">No data</span>';
-                document.getElementById('studentStream').innerHTML = studentData.stream || '<span class="no-data">No data</span>';
+                
                 
                 // Handle group of study
                 const groupElement = document.getElementById('studentGroup');
