@@ -55,9 +55,10 @@
             background-color: #f0f0f0;
         }
         .footer {
-            background-color: #181515;
+            background: #181515;
             color: white;
             padding: 2rem 0;
+            margin-top: 3rem;
         }
     </style>
 </head>
@@ -203,13 +204,12 @@
             </form>
         </div>
     </div>
-
     <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
@@ -218,9 +218,9 @@
                 </div>
                 <div class="col-md-6 text-md-end">
                     <h5>Contact Information:</h5>
-                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
-                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
-                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
                 </div>
             </div>
             <div class="text-center mt-4">
@@ -406,7 +406,7 @@ const searchSchools = debounce(async function() {
     schoolSuggestionsDiv.innerHTML = '';
     schoolDetailsDiv.classList.add('d-none');
 
-    if (udiseCode.length < 3) return;
+    if (udiseCode.length < 5) return;
 
     try {
         const snapshot = await get(schoolsRef);
@@ -540,70 +540,81 @@ udiseForm.addEventListener('submit', async function(e) {
         udiseError.classList.remove('d-none');
     }
 });
-// Previous form submission handlers (modify to save to localStorage)
-const nameForm = document.getElementById('name-form');
-nameForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const studentName = document.getElementById('student-name').value.trim();
-    
-    if (!studentName) {
-        const nameError = document.getElementById('name-error');
-        nameError.textContent = 'Please enter your full name';
-        nameError.classList.remove('d-none');
-        return;
-    }
+ // Name Form Submission
+ const nameForm = document.getElementById('name-form');
+        nameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('student-name').value.trim();
+            
+            if (!studentName) {
+                const nameError = document.getElementById('name-error');
+                nameError.textContent = 'Please enter your full name';
+                nameError.classList.remove('d-none');
+                return;
+            }
 
-    localStorage.setItem('studentName', studentName);
-    
-    document.getElementById('name-page').classList.add('d-none');
-    document.getElementById('grade-page').classList.remove('d-none');
-});
+            localStorage.setItem('studentName', studentName);
+            
+            document.getElementById('name-page').classList.add('d-none');
+            document.getElementById('grade-page').classList.remove('d-none');
+        });
 
-const gradeForm = document.getElementById('grade-form');
-gradeForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const studentGrade = document.getElementById('student-grade').value;
-    
-    if (!studentGrade) {
-        const gradeError = document.getElementById('grade-error');
-        gradeError.textContent = 'Please select your grade';
-        gradeError.classList.remove('d-none');
-        return;
-    }
+        // Grade Form Submission
+        const gradeForm = document.getElementById('grade-form');
+        const groupPage = document.getElementById('group-page');
+        const groupForm = document.getElementById('group-form');
+        const groupOptions = document.querySelectorAll('.group-option');
 
-    localStorage.setItem('studentGrade', studentGrade);
-    
-    document.getElementById('grade-page').classList.add('d-none');
-    document.getElementById('group-page').classList.remove('d-none');
-});
+        gradeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentGrade = document.getElementById('student-grade').value;
+            
+            if (!studentGrade) {
+                const gradeError = document.getElementById('grade-error');
+                gradeError.textContent = 'Please select your grade';
+                gradeError.classList.remove('d-none');
+                return;
+            }
 
-const groupForm = document.getElementById('group-form');
-const groupOptions = document.querySelectorAll('.group-option');
+            localStorage.setItem('studentGrade', studentGrade);
+            
+            // Only show group page if grade is more than 10
+            if (parseInt(studentGrade) > 10) {
+                document.getElementById('grade-page').classList.add('d-none');
+                groupPage.classList.remove('d-none');
+            } else {
+                // If grade is 10 or below, skip directly to interests page
+                document.getElementById('grade-page').classList.add('d-none');
+                document.getElementById('interests-page').classList.remove('d-none');
+            }
+        });
 
-groupOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        groupOptions.forEach(opt => opt.classList.remove('selected'));
-        option.classList.add('selected');
-    });
-});
+        // Group Options Selection
+        groupOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                groupOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
 
-groupForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const selectedGroup = document.querySelector('.group-option.selected');
-    
-    if (!selectedGroup) {
-        const groupError = document.getElementById('group-error');
-        groupError.textContent = 'Please select an academic stream';
-        groupError.classList.remove('d-none');
-        return;
-    }
+        // Group Form Submission
+        groupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedGroup = document.querySelector('.group-option.selected');
+            
+            if (!selectedGroup) {
+                const groupError = document.getElementById('group-error');
+                groupError.textContent = 'Please select an academic stream';
+                groupError.classList.remove('d-none');
+                return;
+            }
 
-    const academicStream = selectedGroup.getAttribute('data-group');
-    localStorage.setItem('academicStream', academicStream);
-    
-    document.getElementById('group-page').classList.add('d-none');
-    document.getElementById('interests-page').classList.remove('d-none');
-});
+            const academicStream = selectedGroup.getAttribute('data-group');
+            localStorage.setItem('academicStream', academicStream);
+            
+            document.getElementById('group-page').classList.add('d-none');
+            document.getElementById('interests-page').classList.remove('d-none');
+        });
 
 
     </script>
