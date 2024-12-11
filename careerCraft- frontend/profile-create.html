@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Career Craft - Sign Up</title>
+    <title>Career Craft - Profile Creation</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Custom Styles -->
     <style>
         body { 
             background-color: #f4f6f9; 
@@ -24,80 +23,219 @@
         }
         .brand-orange { color: #FF6B35; }
         .brand-green { color: #4ECB71; }
+        .group-option {
+            border: 2px solid #f4f6f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .group-option:hover {
+            border-color: #4ECB71;
+            background-color: #f0f0f0;
+        }
+        .group-option.selected {
+            border-color: #FF6B35;
+            background-color: #f0f0f0;
+        }
+        #interest-suggestions .btn, #school-suggestions .btn {
+            margin: 2px;
+        }
+        #school-suggestions {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .school-suggestion-item {
+            cursor: pointer;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .school-suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
         .footer {
-            background-color: #000;
+            background: #181515;
             color: white;
             padding: 2rem 0;
+            margin-top: 3rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="form-container">
+        <div class="form-container" id="name-page">
             <h2 class="text-center mb-4">
                 <span class="brand-orange">CAREER</span> 
                 <span class="brand-green">CRAFT</span>
             </h2>
-            <h3 class="text-center mb-4">Add New Student</h3>
+            <h3 class="text-center mb-4">Profile Creation - Name</h3>
             
-            <form id="signup-form">
+            <form id="name-form">
                 <div class="mb-3">
-                    <label for="signup-email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="signup-email" placeholder="Enter email" required>
+                    <label for="student-name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="student-name" placeholder="Enter your full name" required>
                 </div>
-                <div class="mb-3">
-                    <label for="signup-password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="signup-password" placeholder="Password" required minlength="6">
-                </div>
-                <div class="mb-3">
-                    <label for="confirm-password" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" required minlength="6">
-                </div>
-                <div id="error-message" class="alert alert-danger d-none mb-3"></div>
-                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                <div id="name-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
             </form>
-            <div class="text-center mt-3">
-                <p>Already have an account? <a href="login.html" class="text-decoration-none brand-green">Login</a></p>
-            </div>
+        </div>
+
+        <div class="form-container d-none" id="grade-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Grade</h3>
+            
+            <form id="grade-form">
+                <div class="mb-3">
+                    <label for="student-grade" class="form-label">Select Your Grade</label>
+                    <select class="form-control" id="student-grade" required>
+                        <option value="">Select Grade</option>
+                        <option value="5">5th Grade</option>
+                        <option value="6">6th Grade</option>
+                        <option value="7">7th Grade</option>
+                        <option value="8">8th Grade</option>
+                        <option value="9">9th Grade</option>
+                        <option value="10">10th Grade</option>
+                        <option value="11">11th Grade</option>
+                        <option value="12">12th Grade</option>
+                    </select>
+                </div>
+                <div id="grade-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="group-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Stream</h3>
+            
+            <form id="group-form">
+                <div class="mb-3">
+                    <p class="text-center">Select your academic stream</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="group-option text-center" data-group="Computer Science">
+                                <h5>Computer Science</h5>
+                                <p>Programming, Algorithms, Tech</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="group-option text-center" data-group="Biology">
+                                <h5>Biology</h5>
+                                <p>Life Sciences, Medical Track</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="group-option text-center" data-group="Commerce">
+                                <h5>Commerce</h5>
+                                <p>Business, Economics, Finance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="group-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="interests-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - Interests</h3>
+            
+            <form id="interests-form">
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Add Your Interests</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="interest-input" 
+                        placeholder="Type an interest"
+                    >
+                    <div id="suggestions" class="mt-2"></div>
+                </div>
+                
+                <div id="selected-interests" class="mb-3">
+                    <h5>Selected Interests:</h5>
+                    <ul id="interest-list" class="list-group"></ul>
+                </div>
+                
+                <div id="interests-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="udise-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Profile Creation - School</h3>
+            
+            <form id="udise-form">
+                <div class="mb-3 position-relative">
+                    <label for="school-udise" class="form-label">School UDISE Code</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="school-udise" 
+                        placeholder="Enter your school's UDISE Code"
+                        required
+                    >
+                    <div id="school-suggestions" class="mt-2 border rounded"></div>
+                </div>
+                
+                <div id="school-details" class="mt-3 d-none">
+                    <h5>Selected School:</h5>
+                    <p id="selected-school-name"></p>
+                    <p id="selected-school-location"></p>
+                </div>
+                
+                <div id="udise-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Complete Profile</button>
+            </form>
         </div>
     </div>
-
+    <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" 
-                         alt="Government Logo" 
-                         class="mb-3 img-fluid" 
-                         style="max-height: 100px; cursor: pointer;">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
                     </h5>
-                    <p class="text-white">Crafting Skills, Shaping Futures</p>
+                    <p>Crafting Skills, Shaping Futures</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <h5>Contact Information:</h5>
-                    <p><a href="mailto:support@careercraft.com" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
-                    <p><a href="tel:+919940587477" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
-                    <p class="text-white">Address: 123 Career Street, Education City, India</p>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
                 </div>
             </div>
             <div class="text-center mt-4">
-                <p class="text-white">© 2024 Career Craft. All Rights Reserved</p>
+                <p>© 2024 Career Craft. All Rights Reserved</p>
             </div>
         </div>
     </footer>
 
-    <!-- Firebase Scripts (ES6 Module Import) -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
+        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, set, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Your web app's Firebase configuration
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
             authDomain: "career-craft-1667.firebaseapp.com",
@@ -111,42 +249,371 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // Signup Form Handling
-        document.getElementById('signup-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const errorMessage = document.getElementById('error-message');
+        // Technical Interest Suggestions
+        const allInterests = [
+            'Coding', 'Web Design', 'Game Development', 'Cybersecurity', 
+            'App Development', 'Artificial Intelligence', 'Robotics', 
+            'Programming Competitions', 'Data Science', 'Animation', 
+            'Hackathons', 'UI/UX Design', 'Cloud Computing', 'Networking', 
+            'Virtual Reality', '3D Modeling', 'Tech Blogging', 'Open Source Contributions', 
+            'Algorithm Design', 'Problem Solving', 'Digital Art', 'Video Editing',
+            'Genetics', 'Environmental Conservation', 'Marine Biology', 'Wildlife Photography', 
+            'Botany', 'Microbiology', 'Human Anatomy', 'Zoology', 
+            'Biotechnology', 'Ecology', 'Health and Wellness', 'Nature Exploration', 
+            'Forensics', 'Scientific Research', 'Biology Quizzes', 'Science Experiments', 
+            'Natural History', 'Sustainability Projects', 'Immunology', 
+            'Plant Collection', 'Biological Art', 'Scientific Writing',
+            'Entrepreneurship', 'Marketing', 'Finance', 'Stock Trading', 
+            'Business Strategy', 'Public Speaking', 'Debate', 'Leadership Activities', 
+            'Team Management', 'Sales Pitching', 'E-Commerce', 'Money Management', 
+            'Economics Discussions', 'Case Studies', 'Advertising', 'Event Planning', 
+            'Budgeting', 'Business Competitions', 'Networking Events', 
+            'Startups', 'Social Media Marketing', 'Corporate Ethics'
+        ];
 
-            // Password validation
-            if (password !== confirmPassword) {
-                errorMessage.textContent = "Passwords do not match";
-                errorMessage.classList.remove('d-none');
+        // Profile Data and Selected Interests
+        const profileData = {
+            interests: []
+        };
+
+        // Generate a unique user ID
+        function generateUserId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // DOM Elements
+        const interestInput = document.getElementById('interest-input');
+        const suggestionsDiv = document.getElementById('suggestions');
+        const interestList = document.getElementById('interest-list');
+        const interestsForm = document.getElementById('interests-form');
+
+        // Interest Input and Suggestion Logic
+        interestInput.addEventListener('input', function() {
+            const input = this.value.toLowerCase();
+            suggestionsDiv.innerHTML = '';
+            
+            if (input.length > 0) {
+                const filteredInterests = allInterests.filter(interest => 
+                    interest.toLowerCase().includes(input) && 
+                    !profileData.interests.includes(interest)
+                );
+
+                filteredInterests.slice(0, 5).forEach(interest => {
+                    const suggestionEl = document.createElement('button');
+                    suggestionEl.textContent = interest;
+                    suggestionEl.classList.add('btn', 'btn-outline-secondary', 'btn-sm');
+                    suggestionEl.addEventListener('click', () => addInterest(interest));
+                    suggestionsDiv.appendChild(suggestionEl);
+                });
+            }
+        });
+
+        // Add Interest on Enter or Button Click
+        interestInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const interest = this.value.trim();
+                if (interest && !profileData.interests.includes(interest)) {
+                    addInterest(interest);
+                    this.value = '';
+                }
+            }
+        });
+
+        // Add interest to list
+        function addInterest(interest) {
+            if (!profileData.interests.includes(interest)) {
+                profileData.interests.push(interest);
+                
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+                listItem.innerHTML = `
+                    ${interest}
+                    <button type="button" class="btn btn-sm btn-danger remove-interest">×</button>
+                `;
+                
+                // Remove interest functionality
+                listItem.querySelector('.remove-interest').addEventListener('click', () => {
+                    const index = profileData.interests.indexOf(interest);
+                    if (index > -1) {
+                        profileData.interests.splice(index, 1);
+                    }
+                    listItem.remove();
+                });
+
+                interestList.appendChild(listItem);
+            }
+        }
+
+        // Interests Form Submission
+        interestsForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (profileData.interests.length < 3) {
+                const interestsError = document.getElementById('interests-error');
+                interestsError.textContent = 'Please select at least 3 interests';
+                interestsError.classList.remove('d-none');
                 return;
             }
 
-            try {
-                // Create user with Firebase Authentication
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+            // Generate or retrieve userId
+            let userId = localStorage.getItem('userId');
+            if (!userId) {
+                userId = generateUserId();
+                localStorage.setItem('userId', userId);
+            }
 
-                // Store user email, user ID in local storage and prepare for profile creation
-                localStorage.setItem('userEmail', email);
-                localStorage.setItem('userId', user.uid);
+            // Save interests to localStorage
+            localStorage.setItem('studentInterests', JSON.stringify(profileData.interests));
 
-                // Redirect to profile creation page
-                window.location.href = 'profile-create.html';
-            } catch (error) {
-                errorMessage.textContent = `Error: ${error.message}`;
-                errorMessage.classList.remove('d-none');
+            // Hide interests page and show UDISE page
+            document.getElementById('interests-page').classList.add('d-none');
+            document.getElementById('udise-page').classList.remove('d-none');
+        });
+
+        // DOM Elements
+const schoolUdiseInput = document.getElementById('school-udise');
+const schoolSuggestionsDiv = document.getElementById('school-suggestions');
+const schoolDetailsDiv = document.getElementById('school-details');
+const selectedSchoolName = document.getElementById('selected-school-name');
+const selectedSchoolLocation = document.getElementById('selected-school-location');
+const udiseForm = document.getElementById('udise-form');
+
+// School database reference
+const schoolsRef = ref(database, 'schools');
+
+// Debounce function to limit database calls
+function debounce(func, delay) {
+    let timeoutId;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
+    };
+}
+
+// Search and display school suggestions
+const searchSchools = debounce(async function() {
+    const udiseCode = schoolUdiseInput.value.trim();
+    
+    // Clear previous suggestions
+    schoolSuggestionsDiv.innerHTML = '';
+    schoolDetailsDiv.classList.add('d-none');
+
+    if (udiseCode.length < 5) return;
+
+    try {
+        const snapshot = await get(schoolsRef);
+
+        if (snapshot.exists()) {
+            const schools = snapshot.val();
+            let suggestionsCount = 0;
+
+            Object.entries(schools).forEach(([key, school]) => {
+                if (school.udiseCode.toString().includes(udiseCode) && suggestionsCount < 5) {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.classList.add('school-suggestion-item');
+                    suggestionItem.innerHTML = `
+                        <strong>${school.name}</strong><br>
+                        <small>UDISE: ${school.udiseCode} | Board: ${school.board}</small>
+                        <small class="d-block">${formatAddress(school.address)}</small>
+                    `;
+                    suggestionItem.addEventListener('click', () => selectSchool(school, key));
+                    schoolSuggestionsDiv.appendChild(suggestionItem);
+                    suggestionsCount++;
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Error searching schools:", error);
+    }
+}, 300);
+
+// Format address for display
+function formatAddress(addressString) {
+    // Split address into lines and take first two for brevity
+    const addressLines = addressString.split('\n').slice(0, 2);
+    return addressLines.join(', ');
+}
+
+// Select a school from suggestions
+function selectSchool(school, schoolId) {
+    schoolUdiseInput.value = school.udiseCode;
+    schoolSuggestionsDiv.innerHTML = '';
+    
+    // Store selected school ID for later use
+    localStorage.setItem('selectedSchoolId', schoolId);
+    
+    // Show selected school details
+    selectedSchoolName.textContent = `${school.name} (${school.board})`;
+    selectedSchoolLocation.textContent = formatAddress(school.address);
+    schoolDetailsDiv.classList.remove('d-none');
+}
+
+// UDISE Input Event Listeners
+schoolUdiseInput.addEventListener('input', searchSchools);
+
+// UDISE Form Submission
+udiseForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const udiseError = document.getElementById('udise-error');
+    const udiseCode = schoolUdiseInput.value.trim();
+
+    // Reset previous errors
+    udiseError.classList.add('d-none');
+    udiseError.textContent = '';
+
+    // Validate UDISE Code
+    if (!udiseCode) {
+        udiseError.textContent = 'Please enter a valid UDISE code';
+        udiseError.classList.remove('d-none');
+        return;
+    }
+
+    try {
+        // Verify UDISE code in database
+        const snapshot = await get(schoolsRef);
+
+        if (!snapshot.exists()) {
+            udiseError.textContent = 'No schools found in database.';
+            udiseError.classList.remove('d-none');
+            return;
+        }
+
+        // Find school with matching UDISE code
+        const schools = snapshot.val();
+        const matchingSchool = Object.entries(schools).find(
+            ([key, school]) => school.udiseCode.toString() === udiseCode
+        );
+
+        if (!matchingSchool) {
+            udiseError.textContent = 'Invalid UDISE code. Please check and try again.';
+            udiseError.classList.remove('d-none');
+            return;
+        }
+
+        // Retrieve user data from localStorage
+        const userId = localStorage.getItem('userId');
+        const studentName = localStorage.getItem('studentName');
+        const studentGrade = localStorage.getItem('studentGrade');
+        const academicStream = localStorage.getItem('academicStream');
+        const studentInterests = JSON.parse(localStorage.getItem('studentInterests'));
+        const selectedSchoolId = localStorage.getItem('selectedSchoolId');
+
+        // Prepare final profile data
+        const profileData = {
+            userId,
+            name: studentName,
+            grade: studentGrade,
+            stream: academicStream,
+            interests: studentInterests,
+            school: {
+                id: selectedSchoolId,
+                udiseCode: udiseCode,
+                name: matchingSchool[1].name,
+                board: matchingSchool[1].board,
+                address: matchingSchool[1].address,
+                contact: {
+                    email: matchingSchool[1].email,
+                    phone: matchingSchool[1].phone
+                }
+            }
+        };
+
+        // Save profile to Firebase
+        await set(ref(database, 'students/' + userId), profileData);
+
+        // Optional: Redirect or show success message
+        alert('Profile created successfully!');
+        // You might want to redirect to a dashboard or home page here
+        window.location.href = 'student dashboard.html';
+    } catch (error) {
+        console.error("Profile creation error:", error);
+        udiseError.textContent = 'An error occurred. Please try again.';
+        udiseError.classList.remove('d-none');
+    }
+});
+ // Name Form Submission
+ const nameForm = document.getElementById('name-form');
+        nameForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('student-name').value.trim();
+            
+            if (!studentName) {
+                const nameError = document.getElementById('name-error');
+                nameError.textContent = 'Please enter your full name';
+                nameError.classList.remove('d-none');
+                return;
+            }
+
+            localStorage.setItem('studentName', studentName);
+            
+            document.getElementById('name-page').classList.add('d-none');
+            document.getElementById('grade-page').classList.remove('d-none');
+        });
+
+        // Grade Form Submission
+        const gradeForm = document.getElementById('grade-form');
+        const groupPage = document.getElementById('group-page');
+        const groupForm = document.getElementById('group-form');
+        const groupOptions = document.querySelectorAll('.group-option');
+
+        gradeForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const studentGrade = document.getElementById('student-grade').value;
+            
+            if (!studentGrade) {
+                const gradeError = document.getElementById('grade-error');
+                gradeError.textContent = 'Please select your grade';
+                gradeError.classList.remove('d-none');
+                return;
+            }
+
+            localStorage.setItem('studentGrade', studentGrade);
+            
+            // Only show group page if grade is more than 10
+            if (parseInt(studentGrade) > 10) {
+                document.getElementById('grade-page').classList.add('d-none');
+                groupPage.classList.remove('d-none');
+            } else {
+                // If grade is 10 or below, skip directly to interests page
+                document.getElementById('grade-page').classList.add('d-none');
+                document.getElementById('interests-page').classList.remove('d-none');
             }
         });
+
+        // Group Options Selection
+        groupOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                groupOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        // Group Form Submission
+groupForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const selectedGroup = document.querySelector('.group-option.selected');
+    
+    // If no group is selected, set academic stream as "none"
+    const academicStream = selectedGroup 
+        ? selectedGroup.getAttribute('data-group') 
+        : 'none';
+
+    localStorage.setItem('academicStream', academicStream);
+    
+    document.getElementById('group-page').classList.add('d-none');
+    document.getElementById('interests-page').classList.remove('d-none');
+});
+
+
     </script>
 </body>
 </html>
