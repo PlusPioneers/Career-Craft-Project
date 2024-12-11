@@ -54,6 +54,11 @@
         .school-suggestion-item:hover {
             background-color: #f0f0f0;
         }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
     </style>
 </head>
 <body>
@@ -198,6 +203,31 @@
             </form>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
 
     <script type="module">
         // Import Firebase modules
