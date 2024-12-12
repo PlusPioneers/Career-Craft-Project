@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Courses</title>
+    <title>My Courses - Career Craft</title>
+    
+    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Animate CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
     <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
             background-color: #f4f4f4;
         }
+
         .course-card {
             background-color: white;
             border-radius: 8px;
@@ -24,15 +36,18 @@
             cursor: pointer;
             transition: transform 0.3s ease;
         }
+
         .course-card:hover {
             transform: scale(1.02);
         }
+
         .course-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
+
         .progress-bar {
             width: 100%;
             background-color: #e0e0e0;
@@ -40,21 +55,52 @@
             overflow: hidden;
             margin-top: 10px;
         }
+
         .progress {
             height: 20px;
             background-color: #4CAF50;
             width: 0%;
             transition: width 0.5s ease;
         }
+
         .course-details {
             display: flex;
             justify-content: space-between;
         }
+
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+
         .footer {
-            background: #181515;
+            background-color: #000;
             color: white;
             padding: 2rem 0;
-            margin-top: 3rem;
         }
     </style>
 </head>
@@ -64,7 +110,6 @@
         <div class="container">
             <!-- Brand -->
             <a href="index.html" class="navbar-brand d-flex align-items-center">
-                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
                 <span class="brand-orange">CAREER</span>
                 <span class="brand-green ms-2">CRAFT</span>
             </a>
@@ -87,7 +132,7 @@
                         <a href="course%20library.html" class="nav-link">Course<br>Library</a>
                     </li>
                     <li class="nav-item">
-                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                        <a href="skills.html" class="nav-link">Skills &<br>Badges</a>
                     </li>
                     <li class="nav-item">
                         <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
@@ -101,14 +146,16 @@
         </div>
     </nav>
 
-    <h1>My Enrolled Courses</h1>
-    <div id="courses-container"></div>
+    <div class="container mt-4">
+        <h1 class="mb-4">My Enrolled Courses</h1>
+        <div id="courses-container"></div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
                     <h5>
                         <span class="brand-orange">CAREER</span> 
                         <span class="brand-green">CRAFT</span>
@@ -127,20 +174,22 @@
             </div>
         </div>
     </footer>
-</body>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
         // Firebase configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
-  authDomain: "career-craft-1667.firebaseapp.com",
-  databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "career-craft-1667",
-  storageBucket: "career-craft-1667.firebasestorage.app",
-  messagingSenderId: "616676439535",
-  appId: "1:616676439535:web:2019ad5c6d122728c6721a",
-  measurementId: "G-YND0YL7Y94"
-};
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -160,7 +209,7 @@
                         
                         // Create course card
                         const courseCard = document.createElement('div');
-                        courseCard.className = 'course-card';
+                        courseCard.className = 'course-card animate__animated animate__fadeIn';
                         
                         // Add click event to navigate to course page
                         courseCard.addEventListener('click', () => {
@@ -214,5 +263,5 @@
             fetchStudentCourses(studentId);
         });
     </script>
-
+</body>
 </html>
