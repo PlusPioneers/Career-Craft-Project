@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Course Modules</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" as="style">
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .footer {
+            background: #181515;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .module-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .module-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+    
+
+        .profile-img:hover {
+            transform: scale(1.1);
+        }
+
+        .video-module {
+            background-color: var(--bg-light-blue);
+        }
+
+        .quiz-module {
+            background-color: var(--bg-light-green);
+        }
+
+        .quiz-modal-content {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+    </style>
+
+    <!-- Performance and Security Meta Tags -->
+    <meta name="description" content="Career Craft - Online Learning Platform">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#FF6B00">
+</head>
+<body>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container mt-5 pt-5">
+        <div class="row">
+            <!-- Course Overview Section -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h3 id="courseTitleHeader" class="mb-0">Course Overview</h3>
+                    </div>
+                    <div class="card-body" id="courseInfoContainer">
+                        <!-- Course info will be dynamically loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Progress Tracking -->
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">Your Progress</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress" style="height: 20px;">
+                            <div id="courseProgressBar" 
+                                 class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" 
+                                 style="width: 0%;" 
+                                 aria-valuenow="0" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                0%
+                            </div>
+                        </div>
+                        <p class="mt-2 text-muted">
+                            Completed Modules: 
+                            <span id="completedModulesCount">0</span> / 
+                            <span id="totalModulesCount">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Section -->
+            <div class="col-md-8">
+                <h2 id="modulesSectionTitle" class="mb-4">Course Modules</h2>
+                <div id="courseModulesContainer">
+                    <!-- Modules will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals for Video and Quiz -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="videoModalTitle">Course Video</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="ratio ratio-16x9">
+                        <iframe id="youtube-video" 
+                                src="" 
+                                title="YouTube video player" 
+                                allow="autoplay; encrypted-media" 
+                                allowfullscreen="0" 
+                                frameborder="0"
+                                controlslist="nodownload noplaybackrate">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content quiz-modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="quizModalTitle">Quiz</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="quizModalBody">
+                    <!-- Quiz content will be dynamically loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitQuizBtn">Submit Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    
+    <!-- Firebase and Main Script (to be added) -->
+    <script type="module" src="path/to/your/main-script.js"></script>
+</body>
+</html>
+
+    <!-- Firebase and Bootstrap Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, query, where, getDocs, orderBy, getDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getDatabase, ref, update, get } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.appspot.com",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const firestore = getFirestore(app);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+        
+        // Modal References
+        const quizModal = new bootstrap.Modal(document.getElementById('quizModal'));
+        const videoModal = new bootstrap.Modal(document.getElementById('videoModal'));
+        const quizModalTitle = document.getElementById('quizModalTitle');
+        const quizModalBody = document.getElementById('quizModalBody');
+        const submitQuizBtn = document.getElementById('submitQuizBtn');
+        const youtubeVideo = document.getElementById('youtube-video');
+        const videoModalTitle = document.getElementById('videoModalTitle');
+    
+        // Fetch Course Details
+        async function fetchCourseDetails(courseId) {
+            try {
+                const courseRef = doc(firestore, 'courses', courseId);
+                const courseSnap = await getDoc(courseRef);
+    
+                if (courseSnap.exists()) {
+                    const courseData = courseSnap.data();
+                    document.getElementById('courseTitleHeader').textContent = courseData.name;
+                    document.getElementById('courseInfoContainer').innerHTML = `
+                        <p><strong>Category:</strong> ${courseData.category}</p>
+                        <p><strong>Level:</strong> ${courseData.level}</p>
+                        <p><strong>Duration:</strong> ${courseData.duration}</p>
+                        <p>${courseData.description}</p>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error fetching course details:', error);
+            }
+        }
+    
+        // Fetch Course Modules
+        async function fetchCourseModules(courseId) {
+            try {
+                const modulesRef = collection(firestore, 'courseModules');
+                const modulesQuery = query(
+                    modulesRef, 
+                    where('courseId', '==', courseId), 
+                    orderBy('moduleNumber')
+                );
+    
+                const modulesSnapshot = await getDocs(modulesQuery);
+                return modulesSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+            } catch (error) {
+                console.error('Error fetching course modules:', error);
+                return [];
+            }
+        }
+    
+        // Render Course Modules
+        async function renderCourseModules(courseId, userId) {
+            const modulesContainer = document.getElementById('courseModulesContainer');
+            const totalModulesCount = document.getElementById('totalModulesCount');
+            
+            try {
+                const modules = await fetchCourseModules(courseId);
+                totalModulesCount.textContent = modules.length;
+    
+                const progressRef = ref(database, `userProgress/${userId}/courses/${courseId}/completedModules`);
+                const progressSnapshot = await get(progressRef);
+                const completedModules = progressSnapshot.val() || [];
+    
+                if (modules.length === 0) {
+                    modulesContainer.innerHTML = `
+                        <div class="alert alert-info">No modules available for this course.</div>
+                    `;
+                    return;
+                }
+    
+                const modulesHTML = modules.map((module, index) => {
+                    const isPreviousModuleCompleted = 
+                        index === 0 || completedModules.includes(modules[index - 1].id);
+                    const isModuleCompleted = completedModules.includes(module.id);
+    
+                    return `
+                    <div class="card module-card mb-3 ${module.type === 'video' ? 'video-module' : 'quiz-module'} 
+                             ${!isPreviousModuleCompleted ? 'locked' : ''}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">Module ${module.moduleNumber}: ${module.title}</h5>
+                                <span class="badge ${module.type === 'video' ? 'bg-primary' : 'bg-success'}">
+                                    ${module.type.toUpperCase()}
+                                    ${!isPreviousModuleCompleted ? '🔒' : ''}
+                                </span>
+                            </div>
+                            <div class="module-content mt-2">
+                                ${isPreviousModuleCompleted ? 
+                                    (module.type === 'video' ? `
+                                        <button class="btn btn-outline-primary btn-sm start-video" 
+                                                data-video-link="${module.videoLink}"
+                                                data-module-id="${module.id}"
+                                                data-module-number="${module.moduleNumber}">
+                                            Watch Video
+                                        </button>
+                                    ` : `
+                                        <button class="btn btn-outline-success btn-sm start-quiz 
+                                                       ${!isModuleCompleted ? '' : 'disabled'}" 
+                                                data-module-id="${module.id}"
+                                                data-module-number="${module.moduleNumber}">
+                                            ${!isModuleCompleted ? 'Start Quiz' : 'Completed'}
+                                        </button>
+                                    `) : 
+                                    `<div class="text-warning">Complete previous module to unlock</div>`
+                                }
+                            </div>
+                            <div class="progress module-progress">
+                                <div class="progress-bar" role="progressbar" style="width: ${isModuleCompleted ? '100%' : '0%'};" 
+                                     aria-valuenow="${isModuleCompleted ? 100 : 0}" aria-valuemin="0" aria-valuemax="100">
+                                    ${isModuleCompleted ? 'Completed' : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+    
+                modulesContainer.innerHTML = modulesHTML;
+    
+                // Utility function to convert YouTube watch URL to embed URL
+                function convertToEmbedUrl(url) {
+    // Check for placeholder or invalid URLs
+    if (!url || url.includes('placeholder') || url.trim() === '') {
+        // Error handling for invalid URLs
+        return null;
+    }
+
+    // Check if it's already an embed URL
+    if (url.includes('/embed/')) {
+        return url;
+    }
+
+    // Extract video ID from different possible URL formats
+    const videoIdMatch = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&]+)/);
+    
+    if (videoIdMatch) {
+        const videoId = videoIdMatch[1];
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    // If no match found, show error
+    return null;
+}
+
+document.querySelectorAll('.start-video').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const videoLink = e.target.dataset.videoLink;
+        const moduleId = e.target.dataset.moduleId;
+        const moduleNumber = e.target.dataset.moduleNumber;
+        
+        
+        // Convert the video link
+        const embedLink = convertToEmbedUrl(videoLink);
+        
+        // If no valid embed link, stop processing
+        if (!embedLink) {
+            return;
+        }
+
+        // Add parameters to embed link
+        const fullEmbedLink = embedLink + '?autoplay=1&controls=1&modestbranding=1';
+        youtubeVideo.src = fullEmbedLink;
+        
+        console.log('Attempting to load video:', {
+            originalLink: videoLink,
+            embedLink: fullEmbedLink
+        });
+
+        youtubeVideo.src = fullEmbedLink;
+        videoModalTitle.textContent = `Module ${moduleNumber} Video`;
+        
+        trackVideoCompletion(videoLink, moduleId);
+        videoModal.show();
+    });
+});
+
+                document.querySelectorAll('.start-quiz').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const moduleId = e.target.dataset.moduleId;
+                        const moduleNumber = e.target.dataset.moduleNumber;
+                        loadQuizModule(moduleId, moduleNumber);
+                    });
+                });
+    
+            } catch (error) {
+                console.error('Error rendering course modules:', error);
+                modulesContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        Failed to load course modules. Please try again later.
+                    </div>
+                `;
+            }
+        }
+    
+        // Video Completion Tracking
+        function trackVideoCompletion(videoLink, moduleId) {
+            const videoElement = document.getElementById('youtube-video');
+            
+            videoElement.onended = async () => {
+                const user = auth.currentUser;
+                const courseId = "5Zkdkx9Y7io89rSufMQt";
+                
+                const progressRef = ref(database, `userProgress/${user.uid}/courses/${courseId}/completedModules`);
+                const progressSnapshot = await get(progressRef);
+                const completedModules = progressSnapshot.val() || [];
+                
+                if (!completedModules.includes(moduleId)) {
+                    completedModules.push(moduleId);
+                    await update(ref(database, `userProgress/${user.uid}/courses/${courseId}`), {
+                        completedModules: completedModules
+                    });
+    
+                    await trackUserProgress(user.uid, courseId);
+                    await renderCourseModules(courseId, user.uid);
+                    
+                    Swal.fire({
+                        title: 'Module Completed!',
+                        text: 'You can now proceed to the next module',
+                        icon: 'success',
+                        confirmButtonText: 'Great!'
+                    });
+                }
+                
+                videoModal.hide();
+            };
+        }
+    
+        // Load Quiz Module
+        async function loadQuizModule(moduleId, moduleNumber) {
+            try {
+                const moduleRef = doc(firestore, 'courseModules', moduleId);
+                const moduleSnap = await getDoc(moduleRef);
+    
+                if (moduleSnap.exists()) {
+                    const moduleData = moduleSnap.data();
+                    
+                    quizModalTitle.textContent = `Quiz - Module ${moduleNumber}: ${moduleData.title}`;
+                    quizModalTitle.dataset.moduleId = moduleId;
+                    
+                    const quizHTML = moduleData.quiz.map((question, index) => `
+                        <div class="quiz-question mb-4">
+                            <h6>${index + 1}. ${question.question}</h6>
+                            <div class="options">
+                                ${question.options.map((option, optionIndex) => `
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" 
+                                               name="question${index}" 
+                                               id="question${index}_option${optionIndex}"
+                                               value="${optionIndex}">
+                                        <label class="form-check-label" for="question${index}_option${optionIndex}">
+                                            ${option}
+                                        </label>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('');
+    
+                    quizModalBody.innerHTML = quizHTML;
+                    quizModal.show();
+                }
+            } catch (error) {
+                console.error('Error loading quiz module:', error);
+            }
+        }
+    
+        // Track User Progress
+        async function trackUserProgress(userId, courseId) {
+            try {
+                const progressRef = ref(database, `userProgress/${userId}/courses/${courseId}`);
+                const progressSnapshot = await get(progressRef);
+                
+                if (progressSnapshot.exists()) {
+                    const progress = progressSnapshot.val();
+                    const completedModules = progress.completedModules || [];
+                    const totalModules = parseInt(document.getElementById('totalModulesCount').textContent);
+                    
+                    const progressPercentage = Math.round((completedModules.length / totalModules) * 100);
+                    const courseProgressBar = document.getElementById('courseProgressBar');
+                    courseProgressBar.style.width = `${progressPercentage}%`;
+                    courseProgressBar.textContent = `${progressPercentage}%`;
+                    courseProgressBar.setAttribute('aria-valuenow', progressPercentage);
+                    
+                    document.getElementById('completedModulesCount').textContent = completedModules.length;
+                }
+            } catch (error) {
+                console.error('Error tracking user progress:', error);
+            }
+        }
+    
+        // Auth State Change Listener
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const courseId = "5Zkdkx9Y7io89rSufMQt";
+    
+                    await fetchCourseDetails(courseId);
+                    await renderCourseModules(courseId, user.uid);
+                    await trackUserProgress(user.uid, courseId);
+    
+                } catch (error) {
+                    console.error('Error loading course:', error);
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+    
+        // Quiz Submission Handler
+        submitQuizBtn.addEventListener('click', async () => {
+            const moduleId = quizModalTitle.dataset.moduleId;
+            const quizQuestions = document.querySelectorAll('.quiz-question');
+            
+            let score = 0;
+            const userAnswers = [];
+    
+            quizQuestions.forEach((question, index) => {
+                const selectedOption = question.querySelector(`input[name="question${index}"]:checked`);
+                userAnswers.push(selectedOption ? parseInt(selectedOption.value) : null);
+            });
+    
+            const moduleRef = doc(firestore, 'courseModules', moduleId);
+            const moduleSnap = await getDoc(moduleRef);
+    
+            if (moduleSnap.exists()) {
+                const moduleData = moduleSnap.data();
+                
+                moduleData.quiz.forEach((question, index) => {
+                    if (userAnswers[index] !== null && 
+                        userAnswers[index] === question.correctAnswer) {
+                        score++;
+                    }
+                });
+    
+                const scorePercentage = Math.round((score / moduleData.quiz.length) * 100);
+    
+                Swal.fire({
+                    title: 'Quiz Results',
+                    html: `Your score: ${score} out of ${moduleData.quiz.length}<br>Percentage: ${scorePercentage}%`,
+                    icon: scorePercentage >= 70 ? 'success' : 'warning',
+                    confirmButtonText: 'Close'
+                });
+    
+                if (scorePercentage >= 70) {
+                    const user = auth.currentUser;
+                    const courseId = "5Zkdkx9Y7io89rSufMQt";
+                    const progressRef = ref(database, `userProgress/${user.uid}/courses/${courseId}/completedModules`);
+                    
+                    const progressSnapshot = await get(progressRef);
+                    const completedModules = progressSnapshot.val() || [];
+                    
+                    if (!completedModules.includes(moduleId)) {
+                        completedModules.push(moduleId);
+                        await update(ref(database, `userProgress/${user.uid}/courses/${courseId}`), {
+                            completedModules: completedModules
+                        });
+    
+                        await trackUserProgress(user.uid, courseId);
+                        await renderCourseModules(courseId, user.uid);
+                    }
+                }
+    
+                quizModal.hide();
+            }
+        });
+    </script>
+</body>
+</html>

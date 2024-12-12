@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .course-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .course-card:hover {
+            transform: scale(1.02);
+        }
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #4CAF50;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+        }
+        .footer {
+            background: #181515;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="me-2">
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h1>My Enrolled Courses</h1>
+    <div id="courses-container"></div>
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+  authDomain: "career-craft-1667.firebaseapp.com",
+  databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "career-craft-1667",
+  storageBucket: "career-craft-1667.firebasestorage.app",
+  messagingSenderId: "616676439535",
+  appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+  measurementId: "G-YND0YL7Y94"
+};
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Function to fetch and display courses for a specific student
+        function fetchStudentCourses(studentId) {
+            const coursesRef = database.ref('Enrollments');
+
+            coursesRef.orderByChild('studentInfo/userId').equalTo(studentId).once('value', 
+                function(snapshot) {
+                    const coursesContainer = document.getElementById('courses-container');
+                    coursesContainer.innerHTML = ''; // Clear previous courses
+
+                    snapshot.forEach(function(childSnapshot) {
+                        const courseData = childSnapshot.val();
+                        
+                        // Create course card
+                        const courseCard = document.createElement('div');
+                        courseCard.className = 'course-card';
+                        
+                        // Add click event to navigate to course page
+                        courseCard.addEventListener('click', () => {
+                            window.location.href = `course-page.html?courseId=${courseData.courseInfo.courseId}&courseName=${encodeURIComponent(courseData.courseInfo.courseName)}`;
+                        });
+
+                        // Course header
+                        const courseHeader = document.createElement('div');
+                        courseHeader.className = 'course-header';
+                        courseHeader.innerHTML = `
+                            <h2>${courseData.courseInfo.courseName}</h2>
+                            <span>${courseData.courseInfo.level} | ${courseData.courseInfo.duration}</span>
+                        `;
+                        courseCard.appendChild(courseHeader);
+
+                        // Course details
+                        const courseDetails = document.createElement('div');
+                        courseDetails.className = 'course-details';
+                        courseDetails.innerHTML = `
+                            <p><strong>Category:</strong> ${courseData.courseInfo.category}</p>
+                            <p><strong>Enrolled:</strong> ${new Date(courseData.enrollmentDetails.enrollmentDate).toLocaleDateString()}</p>
+                        `;
+                        courseCard.appendChild(courseDetails);
+
+                        // Progress bar
+                        const progressBar = document.createElement('div');
+                        progressBar.className = 'progress-bar';
+                        const progress = document.createElement('div');
+                        progress.className = 'progress';
+                        progress.style.width = `${courseData.progress.currentProgress}%`;
+                        progressBar.appendChild(progress);
+                        courseCard.appendChild(progressBar);
+
+                        // Progress text
+                        const progressText = document.createElement('p');
+                        progressText.textContent = `Progress: ${courseData.progress.currentProgress}%`;
+                        courseCard.appendChild(progressText);
+
+                        coursesContainer.appendChild(courseCard);
+                    });
+                },
+                function(error) {
+                    console.error("Error fetching courses:", error);
+                }
+            );
+        }
+
+        // When the page loads, fetch courses for a specific student
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentId = 'YvVunRiMMGMSVhCOEZl5nmzugd53'; // Example student ID
+            fetchStudentCourses(studentId);
+        });
+    </script>
+
+</html>

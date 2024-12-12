@@ -13,54 +13,66 @@
 
     <style>
         /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        
         :root {
             --primary-orange: #FF6B00;
             --primary-green: #4CAF50;
         }
-
-        /* Navigation Styles */
-        .brand-orange {
-            color: var(--primary-orange);
+        
+        .navbar-brand img {
+            height: 40px;
         }
         
-        .brand-green {
-            color: var(--primary-green);
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
         }
         
         .navbar {
             background-color: #ffffff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-
-        .navbar-brand img {
-            height: 40px;
-        }
-        
         .nav-link {
             color: #ffffff;
             font-weight: 500;
             transition: color 0.3s ease;
         }
-
         .nav-link:hover {
             color: #fd7e14;
         }
-
         .nav-link.active {
             color: #fd7e14;
         }
-
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
         .profile-img {
             width: 50px;
             height: 50px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
-
         .profile-img:hover {
             transform: scale(1.25);
         }
-
+        .footer {
+            background: #181515;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
         .course-details-container {
             max-width: 800px;
             margin: 2rem auto;
@@ -91,13 +103,7 @@
             border-radius: 10px;
         }
 
-        .footer {
-            background: #181515;
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-
+        
         .alert-success {
             background-color: #d4edda;
             color: #155724;
@@ -111,9 +117,11 @@
             padding: 10px;
             border-radius: 5px;
         }
+        
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -158,7 +166,7 @@
 
     <div class="container">
         <div class="back-button">
-            <button onclick="window.location.href='course-library.html'" class="btn btn-outline-secondary">
+            <button onclick="window.location.href='course%20library.html'" class="btn btn-outline-secondary">
                 ← Back to Course Library
             </button>
         </div>
@@ -227,150 +235,171 @@
         const auth = getAuth(app);
 
         // Course Enrollment Function
-        async function enrollInCourse(course) {
-            const enrollButton = document.getElementById('enrollButton');
-            const enrollmentMessage = document.getElementById('enrollmentMessage');
+async function enrollInCourse(course) {
+    const enrollButton = document.getElementById('enrollButton');
+    const enrollmentMessage = document.getElementById('enrollmentMessage');
 
-            enrollButton.disabled = true;
-            enrollmentMessage.innerHTML = '';
+    enrollButton.disabled = true;
+    enrollmentMessage.innerHTML = '';
 
-            try {
-                const user = auth.currentUser;
-                if (!user) {
-                    throw new Error('Please log in to enroll in a course');
-                }
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error('Please log in to enroll in a course');
+        }
 
-                if (!course.id) {
-                    throw new Error('Course ID is missing. Unable to enroll.');
-                }
+        if (!course.id) {
+            throw new Error('Course ID is missing. Unable to enroll.');
+        }
 
-                const alreadyEnrolled = await checkEnrollmentStatus(user.uid, course.id);
-                if (alreadyEnrolled) {
-                    throw new Error('You are already enrolled in this course');
-                }
+        const alreadyEnrolled = await checkEnrollmentStatus(user.uid, course.id);
+        if (alreadyEnrolled) {
+            throw new Error('You are already enrolled in this course');
+        }
 
-                const enrollmentData = {
-    enrollmentDetails: {
-        enrollmentId: push(ref(database, 'Enrollments')).key,
-        studentId: user.uid,
-        courseId: course.id,
-        enrollmentDate: serverTimestamp(),
-        status: 'active'
-    },
-    studentInfo: {
-        userId: user.uid,
-        email: user.email,
-        displayName: user.displayName || 'Student'
-    },
-    courseInfo: {
-        courseId: course.id,
-        courseName: course.name,
-        category: course.category,
-        level: course.level,
-        duration: course.duration
-    },
-    progress: {
-        currentProgress: 0,
-        completedModules: [],
-        lastAccessedModule: null,
-        startDate: serverTimestamp()
+        const enrollmentData = {
+            enrollmentDetails: {
+                enrollmentId: push(ref(database, 'Enrollments')).key,
+                studentId: user.uid,
+                courseId: course.id,
+                enrollmentDate: serverTimestamp(),
+                status: 'active'
+            },
+            studentInfo: {
+                userId: user.uid,
+                email: user.email,
+                displayName: user.displayName || 'Student'
+            },
+            courseInfo: {
+                courseId: course.id,
+                courseName: course.name,
+                category: course.category,
+                level: course.level,
+                duration: course.duration
+            },
+            progress: {
+                currentProgress: 0,
+                completedModules: [],
+                lastAccessedModule: null,
+                startDate: serverTimestamp()
+            }
+        };
+
+        const updates = {};
+        updates[`Enrollments/${enrollmentData.enrollmentDetails.enrollmentId}`] = enrollmentData;
+        updates[`Users/${user.uid}/enrolledCourses/${course.id}`] = {
+            courseId: course.id,
+            enrollmentId: enrollmentData.enrollmentDetails.enrollmentId,
+            enrollmentDate: enrollmentData.enrollmentDetails.enrollmentDate
+        };
+        updates[`Courses/${course.id}/enrolledStudents/${user.uid}`] = {
+            studentId: user.uid,
+            enrollmentId: enrollmentData.enrollmentDetails.enrollmentId,
+            enrollmentDate: enrollmentData.enrollmentDetails.enrollmentDate
+        };
+
+        await update(ref(database), updates);
+
+        // Redirect to course-page.html with course ID
+        window.location.href = `course-page.html?courseId=${course.id}&enrollmentId=${enrollmentData.enrollmentDetails.enrollmentId}`;
+
+    } catch (error) {
+        console.error('Enrollment error:', error);
+        enrollmentMessage.innerHTML = `
+            <div class="alert alert-danger">
+                Enrollment Failed: ${error.message}
+            </div>
+        `;
+        enrollButton.disabled = false;
     }
-};
+}
 
-                const updates = {};
-                updates[`Enrollments/${enrollmentData.enrollmentDetails.enrollmentId}`] = enrollmentData;
-                updates[`Users/${user.uid}/enrolledCourses/${course.id}`] = {
-                    courseId: course.id,
-                    enrollmentId: enrollmentData.enrollmentDetails.enrollmentId,
-                    enrollmentDate: enrollmentData.enrollmentDetails.enrollmentDate
-                };
-                updates[`Courses/${course.id}/enrolledStudents/${user.uid}`] = {
-                    studentId: user.uid,
-                    enrollmentId: enrollmentData.enrollmentDetails.enrollmentId,
-                    enrollmentDate: enrollmentData.enrollmentDetails.enrollmentDate
-                };
+// Check Enrollment Status
+async function checkEnrollmentStatus(studentId, courseId) {
+    const dbRef = ref(database);
+    try {
+        const snapshot = await get(child(dbRef, `Users/${studentId}/enrolledCourses/${courseId}`));
+        return snapshot.exists();
+    } catch (error) {
+        console.error("Error checking enrollment:", error);
+        return false;
+    }
+}
 
-                await update(ref(database), updates);
+document.addEventListener('DOMContentLoaded', async () => {
+    // Get course ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('courseId');
 
-                enrollmentMessage.innerHTML = `
-                    <div class="alert alert-success">
-                        Successfully enrolled in ${course.name}! 
-                        Your enrollment ID is ${enrollmentData.enrollmentDetails.enrollmentId}
-                    </div>
-                `;
+    if (!courseId) {
+        // Handle case where no course ID is provided
+        document.getElementById('courseDetailsContainer').innerHTML = `
+            <div class="alert alert-danger">
+                No course selected. Please select a course from the Course Library.
+            </div>
+        `;
+        return;
+    }
 
-            } catch (error) {
-                console.error('Enrollment error:', error);
-                enrollmentMessage.innerHTML = `
-                    <div class="alert alert-danger">
-                        Enrollment Failed: ${error.message}
-                    </div>
-                `;
-            } finally {
-                enrollButton.disabled = false;
-            }
-        }
+    try {
+        // Fetch course details from Firebase
+        const dbRef = ref(database, `courses/${courseId}`);
+        const snapshot = await get(dbRef);
 
-        // Check Enrollment Status
-        async function checkEnrollmentStatus(studentId, courseId) {
-            const dbRef = ref(database);
-            try {
-                const snapshot = await get(child(dbRef, `Users/${studentId}/enrolledCourses/${courseId}`));
-                return snapshot.exists();
-            } catch (error) {
-                console.error("Error checking enrollment:", error);
-                return false;
-            }
-        }
+        if (snapshot.exists()) {
+            const course = snapshot.val();
+            course.id = courseId; // Add the ID to the course object
 
-        // Course Details Loading
-        document.addEventListener('DOMContentLoaded', () => {
-            const courseDetailsJson = localStorage.getItem('selectedCourse');
+            const detailsContainer = document.getElementById('courseDetailsContainer');
             
-            if (courseDetailsJson) {
-                try {
-                    const course = JSON.parse(decodeURIComponent(courseDetailsJson));
-                    const detailsContainer = document.getElementById('courseDetailsContainer');
+            // Render course details
+            detailsContainer.innerHTML = `
+                <div class="course-header">
+                    <h1 class="display-5">${course.name}</h1>
+                    <p class="text-muted">${course.category} | ${course.level} Level</p>
+                </div>
+                <div class="course-content">
+                    <h3>Course Description</h3>
+                    <p>${course.description}</p>
                     
-                    // Render course details
-                    detailsContainer.innerHTML = `
-                        <div class="course-header">
-                            <h1 class="display-5">${course.name}</h1>
-                            <p class="text-muted">${course.category} | ${course.level} Level</p>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h4>Course Details</h4>
+                            <ul class="list-unstyled">
+                                <li><strong>Duration:</strong> ${course.duration}</li>
+                                <li><strong>Instructor:</strong> ${course.instructor || 'Not specified'}</li>
+                                <li><strong>Tags:</strong> ${(course.tags || []).join(', ') || 'No tags'}</li>
+                            </ul>
                         </div>
-                        <div class="course-content">
-                            <h3>Course Description</h3>
-                            <p>${course.description}</p>
-                            
-                            <div class="row mt-4">
-                                <div class="col-md-6">
-                                    <h4>Course Details</h4>
-                                    <ul class="list-unstyled">
-                                        <li><strong>Duration:</strong> ${course.duration}</li>
-                                        <li><strong>Instructor:</strong> ${course.instructor}</li>
-                                        <li><strong>Tags:</strong> ${(course.tags || []).join(', ')}</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4>Additional Information</h4>
-                                    <p>${course.additionalInfo || 'No additional information available.'}</p>
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <h4>Additional Information</h4>
+                            <p>${course.additionalInfo || 'No additional information available.'}</p>
                         </div>
-                    `;
+                    </div>
+                </div>
+            `;
 
-                    // Setup enrollment button
-                    const enrollButton = document.getElementById('enrollButton');
-                    enrollButton.addEventListener('click', () => enrollInCourse(course));
+            // Setup enrollment button
+            const enrollButton = document.getElementById('enrollButton');
+            enrollButton.addEventListener('click', () => enrollInCourse(course));
 
-                } catch (error) {
-                    console.error('Error parsing course details:', error);
-                }
-                
-                // Clear localStorage
-                localStorage.removeItem('selectedCourse');
-            }
-        });
-    </script>
+        } else {
+            // Handle course not found
+            document.getElementById('courseDetailsContainer').innerHTML = `
+                <div class="alert alert-danger">
+                    Course not found. The course may have been removed or does not exist.
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error fetching course details:', error);
+        document.getElementById('courseDetailsContainer').innerHTML = `
+            <div class="alert alert-danger">
+                Error loading course details. Please try again later.
+            </div>
+        `;
+    }
+});    
+</script>
 </body>
 </html>
